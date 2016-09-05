@@ -9,8 +9,8 @@
   },
   "main": "index_2.js",
   "scripts": {
-    "test": "node index_2.js",
-    "start": "node index_2.js"
+    "test": "node index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

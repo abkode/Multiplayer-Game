@@ -1,39 +1,72 @@
-var util = require('util');
-// var ecstatic = require('ecstatic');
+// Setup basic express server
 
-// Import the Express module
 var express = require('express');
-
-// Import the 'path' module (packaged with Node.js)
-var path = require('path');
-
-// Create a new instance of Express
 var app = express();
 
-// Import the Anagrammatix game file.
-var agx = require('./game');
-
-// Create a simple Express application
-app.configure(function() {
-    // Turn down the logging activity
-    app.use(express.logger('dev'));
-
-    // Serve static html, js, css, and image files from the 'public' directory
-    app.use(express.static(path.join(__dirname,'public')));
-});
-
-// Create a Node.js based http server on port 8080
-var server = require('http').createServer(app).listen(process.env.PORT || 8080);
-
-// Create a Socket.IO server and attach it to the http server
+var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
-// Reduce the logging output of Socket.IO
-io.set('log level',1);
+var port = process.env.PORT || 3000;
 
-// Listen for Socket.IO Connections. Once connected, start the game logic.
-io.sockets.on('connection', function (socket) {
-    //console.log('client connected');
-    agx.initGame(io, socket);
+
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
 });
 
+// Routing
+app.use(express.static(__dirname + '/public'));
+
+var numUsers = 0;
+var game_players = [];
+
+app.get('/game', function (req, res) {
+    // var key = req.params.key;
+    // console.log(key);
+    // res.render('controller.html', {key:key});
+    res.sendfile(__dirname + '/public/controller.html');
+
+});
+
+// Create a unique Socket.IO Room
+var game_id = ( Math.random() * 100000 ) | 0;
+
+io.sockets.on('connection', function (socket) {
+    
+    var addedUser = false;
+    
+    socket.on('game_start', function () {
+        socket.emit('newGameCreated', {gameId: game_id, SocketId: socket.id});
+        // Join the Room and wait for the players
+        socket.join(game_id.toString());
+    });
+
+    socket.on('add user', function (player_name) { 
+        if (addedUser) return;
+        socket.username = player_name;
+        game_players.push(socket.username);
+        ++numUsers;
+        addedUser = true;
+        socket.emit('login', {
+            numUsers: numUsers
+
+        });
+
+        // echo globally (all clients) that a person has connected
+        socket.broadcast.emit('user joined', {
+            username: socket.username,
+            numUsers: numUsers,
+            game_players: game_players,
+            game_id: game_id 
+        });
+
+        socket.on('left move', function () {
+            socket.broadcast.emit('left move');
+         });
+
+        socket.on('right move', function () {
+            socket.broadcast.emit('right move');
+         }); 
+        
+    });
+
+});
