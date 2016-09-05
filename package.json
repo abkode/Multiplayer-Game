@@ -1,0 +1,29 @@
+{
+  "name": "Anagrammatix",
+  "description": "Anagram Multiplayer Game",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "socket.io": "0.9"
+  },
+  "main": "index_2.js",
+  "scripts": {
+    "test": "node index_2.js",
+    "start": "node index_2.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "devDependencies": {
+    "nodemon": "^0.7.10",
+    "standard": "^5.3.1"
+  },
+  "homepage": ""
+}

@@ -1,0 +1,27 @@
+﻿#game {
+  position: relative;
+}
+#game canvas, #game_info {
+  position: absolute;
+    color: white;
+    padding: 30px;
+    margin: 10px;
+}
+canvas {
+  border: 1px solid black;
+}
+
+
+#mobile_container {
+    padding: 20px;
+   text-align: center;
+}
+#mobile_container input {
+    width: 100%;
+    font-size: 2em;
+}
+
+#mobile_container button {
+    width: 100%;
+    font-size: 2em;
+}

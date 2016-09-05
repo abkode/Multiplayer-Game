@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/game.css" type="text/css" />
+    <!--<script src="libs/game.js"></script>-->
+    <script src="libs/fastclick.js"></script>
+</head>
+<body>
+<div id="mobile_container">
+    <div id="user_form">
+        <h1>Mobile - Controller</h1>
+        <label for="lbl_name">Your Name:</label><br>
+        <input id="input_player_name" type="text" />
+        <br><br>
+        <label for="lbl_game_id">Game ID:</label><br>
+        <input id="input_game_id" type="text" />
+        <br><br>
+        <button id="btn_start" class="btn">Start Game</button>
+    </div>
+
+    <div id="controller">
+        <div class="row">
+            <div class="col-xs-6">
+                <button id="btn_left" class="btn btn-success">
+                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="col-xs-6">
+                <button id="btn_right" class="btn btn-success">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="libs/jquery-2.0.2.min.js"></script>
+<script src="controller.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>

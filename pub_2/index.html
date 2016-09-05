@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Phaser Template</title>
+    <link rel="stylesheet" href="css/game.css" type="text/css" />
+    <!--<script src="src/lib/phaser.min.js"></script>
+    <script src="src/game/main.js"></script>-->
+    <script src="libs/game.js"></script>
+    <script src="libs/fastclick.js"></script>
+</head>
+<body>
+
+<div id="container text-center">
+    <div>
+        <button id="btn_startGame" class="btn btn-primary">Start Game</button>
+    </div>
+
+    <div id="url_info">
+        <h1>Please open below URL on your mobile device:</h1>
+        <div id="gameURL"></div>
+        <br />
+        <div>then enter the following Game ID and join the game</div><br>
+        <div id="gameID"></div>
+    </div>
+
+    <div id="game">
+        <div id="game_info">
+            <div id="game_id"></div>
+            <div id="num_player"></div>
+            <div id="player_list"></div>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="libs/jquery-2.0.2.min.js"></script>
+<script src="app.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
