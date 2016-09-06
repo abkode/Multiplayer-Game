@@ -14,7 +14,7 @@ $(function($){
     });
 
     socket.on('newGameCreated', function (data) {
-        $('#gameURL').text("http://192.168.1.70:3000/game");
+        $('#gameURL').text("http://localhost:3000/game");
         $('#gameID').html("<h2>" + data.gameId + "</h2>")
         // var key = data.gameId;
         
@@ -30,9 +30,16 @@ $(function($){
         $('#game_info').show();
         $('#num_player').html("<p>" + data.numUsers + " players</p>");
         $('#player_list').empty();
-        for (var i = 0; i < data.game_players.length; i++) {
-            $('#player_list').append("<p>" + data.game_players[i] + "</p>");
+
+        for (var key in data.game_players) {
+            if (data.game_players.hasOwnProperty(key)) {
+                $('#player_list').append("<p>" + key + " -> " + data.game_players[key] + "</p>");
+            }
         }
+
+        // for (var i = 0; i < data.game_players.length; i++) {
+        //     $('#player_list').append("<p>" + data.game_players[i] + "</p>");
+        // }
         $('#game_id').html("<h1>Game Code: " + data.game_id + " </h1>")
     });
 

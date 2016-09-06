@@ -17,14 +17,10 @@ server.listen(port, function () {
 app.use(express.static(__dirname + '/public'));
 
 var numUsers = 0;
-var game_players = [];
+var game_players = {};
 
 app.get('/game', function (req, res) {
-    // var key = req.params.key;
-    // console.log(key);
-    // res.render('controller.html', {key:key});
     res.sendfile(__dirname + '/public/controller.html');
-
 });
 
 // Create a unique Socket.IO Room
@@ -36,20 +32,24 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('game_start', function () {
         socket.emit('newGameCreated', {gameId: game_id, SocketId: socket.id});
-        // Join the Room and wait for the players
         socket.join(game_id.toString());
     });
 
     socket.on('add user', function (player_name) { 
         if (addedUser) return;
+        var player_id = ( Math.random() * 1000 ) | 0;
         socket.username = player_name;
-        game_players.push(socket.username);
+        game_players[player_id] = player_name;
         ++numUsers;
         addedUser = true;
         socket.emit('login', {
             numUsers: numUsers
-
         });
+        socket.broadcast.emit('new player', {
+            game_player_name: player_name,
+            game_player_id: player_id
+        });
+
 
         // echo globally (all clients) that a person has connected
         socket.broadcast.emit('user joined', {

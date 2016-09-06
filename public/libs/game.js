@@ -1,5 +1,6 @@
 // Snake by Patrick OReilly and Richard Davey
 // Twitter: @pato_reilly Web: http://patricko.byethost9.com
+
 var game = new Phaser.Game(
   window.screen.availWidth * window.devicePixelRatio,
   window.screen.availHeight * window.devicePixelRatio, 
@@ -60,11 +61,20 @@ function createCollisionDetection()
 }
 
 function create() {
-  // Create new player
-  createNewPlayer(1,"Kevin",ballColors[1],new Phaser.Point(100,100));
-  createNewPlayer(2,"Frank",ballColors[2],new Phaser.Point(300,300));
-  createNewPlayer(3,"Bob"  ,ballColors[3],new Phaser.Point(400,400));
-  createNewPlayer(4,"ken"  ,ballColors[3],new Phaser.Point(500,400));
+
+  var socket = io.connect();
+  // // Create new player
+  var num = 10;
+  socket.on('new player', function (game_player_name, game_player_id) { 
+    createNewPlayer(1, game_player_name, ballColors[1],new Phaser.Point(100+num,100+num));
+    num += 10;
+  });
+   
+
+  // createNewPlayer(1,"Kevin",ballColors[1],new Phaser.Point(100,100));
+  // createNewPlayer(2,"Frank",ballColors[2],new Phaser.Point(300,300));
+  // createNewPlayer(3,"Bob"  ,ballColors[3],new Phaser.Point(400,400));
+  // createNewPlayer(4,"ken"  ,ballColors[3],new Phaser.Point(500,400));
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
   game.world.setBounds(0, 0, 800, 600);
@@ -82,33 +92,36 @@ function update() {
 
   var socket = io.connect();
 
-
   var player = players[1];
   var snakeSpacer = 3;
 
-  player.snakeHead.body.angularVelocity = 0;
-  player.snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 300));
+  
       
-  if (player.snakeSection.length > 0)
-  {
-    var part = player.snakePath.pop();
+  // if (player.snakeSection.length > 0)
+  // {
+  //   var part = player.snakePath.pop();
 
-    part.setTo(player.snakeHead.x, player.snakeHead.y);
-    player.snakePath.unshift(part);
+  //   part.setTo(player.snakeHead.x, player.snakeHead.y);
+  //   player.snakePath.unshift(part);
 
-    for (var i = 0; i <= player.snakeSection.length - 1; i++)
-    {
-      player.snakeSection[i].x = (player.snakePath[i * snakeSpacer]).x;
-      player.snakeSection[i].y = (player.snakePath[i * snakeSpacer]).y;
-    }
+  //   for (var i = 0; i <= player.snakeSection.length - 1; i++)
+  //   {
+  //     player.snakeSection[i].x = (player.snakePath[i * snakeSpacer]).x;
+  //     player.snakeSection[i].y = (player.snakePath[i * snakeSpacer]).y;
+  //   }
 
-  }
+  // }
+
 
   socket.on('left move', function () {
+        player.snakeHead.body.angularVelocity = 0;
+        player.snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 3000));
         player.snakeHead.body.angularVelocity = -300000;
     }); 
 
     socket.on('right move', function () {
+        player.snakeHead.body.angularVelocity = 0;
+        player.snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 3000));
         player.snakeHead.body.angularVelocity = 300000;
     });     
 
@@ -187,7 +200,7 @@ function collisionCallback(snakeHead1, snakeHead2)
 }
 function render() {
 
-  game.debug.body(players[1].snakeHead);
-  game.debug.body(players[2].snakeHead);
+  // game.debug.body(players[1].snakeHead);
+  // game.debug.body(players[2].snakeHead);
 
 }
