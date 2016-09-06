@@ -14,7 +14,7 @@ var ballColors = {1 : 'blue', 2: 'green',3:'red'};
 
 function preload() {
 
-  game.load.image(ballColors[1],'assets/orb-blue.png');
+  game.load.image(ballColors[1],'assets/tuna-icon.png');
   game.load.image(ballColors[2],'assets/orb-green.png');
   game.load.image(ballColors[3],'assets/orb-red.png');
 
@@ -29,6 +29,7 @@ function createNewPlayer(id,name,ballColorString,location)
   var snakePath = new Array();
   var playerObject = createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePath);
   players[id] = playerObject;
+  debugger;
 }
 
 function generateSnakeHeadForPlayer(location,ballColorString)
@@ -62,13 +63,16 @@ function createCollisionDetection()
 
 function create() {
 
+  // createNewPlayer(1, "init user", ballColors[1],new Phaser.Point(300,300));
+  // debugger;
   var socket = io.connect();
-  // // Create new player
-  var num = 10;
-  socket.on('new player', function (game_player_name, game_player_id) { 
-    createNewPlayer(1, game_player_name, ballColors[1],new Phaser.Point(100+num,100+num));
-    num += 10;
-  });
+  // Create new player
+  
+  // var num = 100;
+  // socket.on('new player', function (game_player_name, game_player_id) { 
+  //   createNewPlayer(2, "Abozar", ballColors[1],new Phaser.Point(num,num));
+  //   num += 50;
+  // });
    
 
   // createNewPlayer(1,"Kevin",ballColors[1],new Phaser.Point(100,100));
@@ -77,7 +81,9 @@ function create() {
   // createNewPlayer(4,"ken"  ,ballColors[3],new Phaser.Point(500,400));
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.world.setBounds(0, 0, 800, 600);
+  game.world.setBounds(0, 0, 
+    900,
+    600 );
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -88,6 +94,8 @@ function create() {
 
 }
 
+
+
 function update() {
 
   var socket = io.connect();
@@ -95,43 +103,41 @@ function update() {
   var player = players[1];
   var snakeSpacer = 3;
 
-  
+  var num = 100;
+  socket.on('new player', function (data) { 
+    createNewPlayer(data.game_player_id, data.game_player_name, ballColors[1],new Phaser.Point(300,300));
+    // debugger;
+    num += 50;
+  });
       
-  // if (player.snakeSection.length > 0)
-  // {
-  //   var part = player.snakePath.pop();
+  socket.on('new player', function (data) {
+    players[data.game_player_id].snakeHead.body.angularVelocity = 0;
+    players[data.game_player_id].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 400));
+  });
 
-  //   part.setTo(player.snakeHead.x, player.snakeHead.y);
-  //   player.snakePath.unshift(part);
+  Object.keys(players).forEach(key => {  
+      players[key].snakeHead.body.velocity.setTo(0, 0);
+      players[key].snakeHead.body.angularVelocity = 0;
+      players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 400));
+    });
 
-  //   for (var i = 0; i <= player.snakeSection.length - 1; i++)
-  //   {
-  //     player.snakeSection[i].x = (player.snakePath[i * snakeSpacer]).x;
-  //     player.snakeSection[i].y = (player.snakePath[i * snakeSpacer]).y;
-  //   }
+  socket.on('left move', function (data) {    
+        // player.snakeHead.body.angularVelocity = -300000;
+        players[data.player_id].snakeHead.body.angularVelocity = -30000;
+  }); 
 
+  socket.on('right move', function (data) {
+        // player.snakeHead.body.angularVelocity = 300000;
+        players[data.player_id].snakeHead.body.angularVelocity = 30000;
+  });     
+
+    
+  // if (cursors.left.isDown) {
+  //   player.snakeHead.body.angularVelocity = -300;
   // }
-
-
-  socket.on('left move', function () {
-        player.snakeHead.body.angularVelocity = 0;
-        player.snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 3000));
-        player.snakeHead.body.angularVelocity = -300000;
-    }); 
-
-    socket.on('right move', function () {
-        player.snakeHead.body.angularVelocity = 0;
-        player.snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 3000));
-        player.snakeHead.body.angularVelocity = 300000;
-    });     
-
-
-  if (cursors.left.isDown) {
-    player.snakeHead.body.angularVelocity = -300;
-  }
-  else if (cursors.right.isDown) {
-    player.snakeHead.body.angularVelocity = 300;
-  }
+  // else if (cursors.right.isDown) {
+  //   player.snakeHead.body.angularVelocity = 300;
+  // }
 
   createCollisionDetection();
 

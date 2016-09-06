@@ -43,10 +43,11 @@ io.sockets.on('connection', function (socket) {
         ++numUsers;
         addedUser = true;
         socket.emit('login', {
-            numUsers: numUsers
+            numUsers: numUsers,
+            game_player_id: player_id
         });
         socket.broadcast.emit('new player', {
-            game_player_name: player_name,
+            game_player_name: socket.username,
             game_player_id: player_id
         });
 
@@ -59,12 +60,12 @@ io.sockets.on('connection', function (socket) {
             game_id: game_id 
         });
 
-        socket.on('left move', function () {
-            socket.broadcast.emit('left move');
+        socket.on('left move', function (controller_id) {
+            socket.broadcast.emit('left move', {player_id: controller_id});
          });
 
-        socket.on('right move', function () {
-            socket.broadcast.emit('right move');
+        socket.on('right move', function (controller_id) {
+            socket.broadcast.emit('right move', {player_id: controller_id});
          }); 
         
     });
