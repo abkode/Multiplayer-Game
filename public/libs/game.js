@@ -39,7 +39,7 @@ function getAlivePlayers()
 }
 function createNewPlayer(id,name,ballColorString,location)
 {
-
+  console.log("create new player called!!!!!");
   var snakeHead = generateSnakeHeadForPlayer(location,ballColorString);
 
   var snakeSection = new Array();
