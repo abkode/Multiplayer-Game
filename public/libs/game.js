@@ -19,7 +19,19 @@ function preload() {
   game.load.image(ballColors[3],'assets/orb-red.png');
 
 }
+function getAlivePlayers() 
+//return an array of players keys of alive players
+{
+  
+  var alivePlayers = Object.keys(players).map(function(playerKey) {
 
+    if(players[playerKey].snakeHead.alive === true);
+    return(playerKey);
+  });
+
+  return(alivePlayers);
+
+}
 function createNewPlayer(id,name,ballColorString,location)
 {
 
@@ -29,9 +41,8 @@ function createNewPlayer(id,name,ballColorString,location)
   var snakePath = new Array();
   var playerObject = createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePath);
   players[id] = playerObject;
-  debugger;
-}
 
+}
 function generateSnakeHeadForPlayer(location,ballColorString)
 {
   var snakeHead = game.add.sprite(location.x, location.y, ballColorString);
@@ -81,9 +92,9 @@ function create() {
   // createNewPlayer(4,"ken"  ,ballColors[3],new Phaser.Point(500,400));
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.world.setBounds(0, 0, 
-    900,
-    600 );
+  game.world.setBounds(0, 0,
+    window.screen.availWidth * window.devicePixelRatio, 
+    window.screen.availHeight * window.devicePixelRatio);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -131,7 +142,7 @@ function update() {
         players[data.player_id].snakeHead.body.angularVelocity = 30000;
   });     
 
-    
+  console.log(getAlivePlayers().toString());
   // if (cursors.left.isDown) {
   //   player.snakeHead.body.angularVelocity = -300;
   // }
@@ -198,9 +209,11 @@ function collisionCallback(snakeHead1, snakeHead2)
   console.log('Collision!');
 
   if(playerOneObjectKey == 1) {
+    snakeHead2.kill();
     //appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
   }else {
     //appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
+    snakeHead1.kill();
   }
 
 }
