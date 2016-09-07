@@ -39,7 +39,7 @@ function getAlivePlayers()
 }
 function createNewPlayer(id,name,ballColorString,location)
 {
-  console.log("create new player called!!!!!");
+  // console.log("create new player called!!!!!");
   var snakeHead = generateSnakeHeadForPlayer(location,ballColorString);
 
   var snakeSection = new Array();
@@ -132,24 +132,24 @@ function update() {
     icon_index += 1;
 
     players[data.game_player_id].snakeHead.body.angularVelocity = 0;
-    players[data.game_player_id].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 300));
+    players[data.game_player_id].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 500));
 
   });
       
   Object.keys(players).forEach(key => {  
       players[key].snakeHead.body.velocity.setTo(0, 0);
       players[key].snakeHead.body.angularVelocity = 0;
-      players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
+      players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 500));
     });
 
   socket.on('left move', function (data) {    
         // player.snakeHead.body.angularVelocity = -300000;
-        players[data.player_id].snakeHead.body.angularVelocity = -300000;
+        players[data.player_id].snakeHead.body.angularVelocity = -3000000;
   }); 
 
   socket.on('right move', function (data) {
         // player.snakeHead.body.angularVelocity = 300000;
-        players[data.player_id].snakeHead.body.angularVelocity = 300000;
+        players[data.player_id].snakeHead.body.angularVelocity = 3000000;
   });     
 
   console.log(getAlivePlayers().toString());
