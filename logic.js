@@ -14,18 +14,11 @@ LinkedList.prototype.insertNodeAtTail = function (val) {
 
     if (!this.head) {
         this.head = node;
-        // this.tail = node;
         this.head.next = this.head;
         this.tail = this.head;
         
 
     } else {
-        // var p1 = this.head;
-        // while (p1.next) {
-        //     p1 = p1.next;
-        // }
-        // p1.next = node;
-        // this.tail = node; 
         this.tail.next = node;
         this.tail = node;
         this.tail.next = this.head
@@ -34,19 +27,6 @@ LinkedList.prototype.insertNodeAtTail = function (val) {
 
     this._length++;
 };
-
-
-
-
-// function breakLoop(list) {
-//     var head = list.head, tail = head, len = 1;
-//     while (tail.next != head) {
-//         len++;
-//         tail = tail.next;
-//     }
-//     tail.next = null;
-//     console.log(len.toString());
-// }
 
 LinkedList.prototype.findNodeBeforeDelete = function (val) {
 

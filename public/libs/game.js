@@ -11,6 +11,7 @@ var game = new Phaser.Game(
 
 var players = {};
 var ballColors = {1 : 'blue', 2: 'green',3:'red'};
+var targets = new LinkedList();
 
 function preload() {
 
@@ -63,7 +64,7 @@ function createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePat
 
 function createCollisionDetection()
 {
-  console.log("collision detection called");
+  //console.log("collision detection called");
 
   var playerKeyArray = Object.keys(players);
   for(x=0; x < playerKeyArray.length; x+=1)
@@ -84,6 +85,12 @@ function create() {
   // game.add.tileSprite(0, 0, 0, 0, 'background');
 
   var socket = io.connect();
+
+  targets = new LinkedList();
+  // targets.insertNodeAtTail(1);
+  // targets.insertNodeAtTail(2);
+  // console.log(targets);
+
   // Create new player
   
   // var num = 100;
@@ -120,6 +127,7 @@ function update() {
 
   var socket = io.connect();
 
+
   var player = players[1];
   var snakeSpacer = 3;
 
@@ -128,6 +136,9 @@ function update() {
   socket.on('new player', function (data) {
 
     createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
+    targets.insertNodeAtTail(data.game_player_id);
+    console.log(targets);
+
     num += 50;
     icon_index += 1;
 
@@ -152,7 +163,7 @@ function update() {
         players[data.player_id].snakeHead.body.angularVelocity = 3000000;
   });     
 
-  console.log(getAlivePlayers().toString());
+  ///console.log(getAlivePlayers().toString());
   // if (cursors.left.isDown) {
   //   player.snakeHead.body.angularVelocity = -300;
   // }

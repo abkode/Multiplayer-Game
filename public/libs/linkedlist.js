@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-</head>
-<body>
-<script>
 function Node(data) {
     this.data = data;
     this.next = null;
@@ -22,22 +14,18 @@ LinkedList.prototype.insertNodeAtTail = function (val) {
 
     if (!this.head) {
         this.head = node;
-        // this.tail = node;
         this.head.next = this.head;
         this.tail = this.head;
         
 
     } else {
-        
         this.tail.next = node;
         this.tail = node;
         this.tail.next = this.head
 
     }
-
     this._length++;
 };
-
 
 LinkedList.prototype.findNodeBeforeDelete = function (val) {
 
@@ -53,9 +41,6 @@ LinkedList.prototype.findNodeBeforeDelete = function (val) {
   } while (currentNode !== this.head);
 
 }
-
-
-
 
 LinkedList.prototype.deleteNode = function (val) {
 
@@ -81,33 +66,3 @@ LinkedList.prototype.deleteNode = function (val) {
   }
   this._length--;
 };
-
-// Create an instance of a LinkedList class
-var L1 = new LinkedList();
-
-// Create a linked list with six elements
-L1.insertNodeAtTail(1);
-L1.insertNodeAtTail(2);
-L1.insertNodeAtTail(3);
-L1.insertNodeAtTail(4);
-L1.insertNodeAtTail(5);
-L1.insertNodeAtTail(6);
-console.log(L1);
-
-console.log(L1.findNodeBeforeDelete(6));
-
-L1.deleteNode(6);
-console.log(L1);
-
-// // // Delete a head and a tail node
-// L1.deleteNode(6);
-// // L1.deleteNode(10);
-// console.log(L1);
-
-// // // Delete  an intermediate node
-// L1.deleteNode(4);
-// console.log(L1);
-</script>
-  
-</body>
-</html>
