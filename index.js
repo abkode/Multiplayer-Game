@@ -36,6 +36,8 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('add user', function (player_name) { 
+
+        console.log("add user called!!!!!!!!!!!!!!!!!!!!");
         if (addedUser) return;
         var player_id = ( Math.random() * 1000 ) | 0;
         socket.username = player_name;

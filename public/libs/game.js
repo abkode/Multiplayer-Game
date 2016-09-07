@@ -11,16 +11,34 @@ var game = new Phaser.Game(
 
 var players = {};
 var ballColors = {1 : 'blue', 2: 'green',3:'red'};
+var num = 100;
+var icon_index = 1;
+var snakeSpacer = 10;
+var socket;
 
 function preload() {
 
-  game.load.image(ballColors[1],'assets/tuna-icon.png');
-  game.load.image(ballColors[2],'assets/Bee-icon.png');
-  game.load.image(ballColors[3],'assets/Fish-icon.png');
-  game.load.image(ballColors[4],'assets/seal-icon.png');
-  game.load.image(ballColors[5],'assets/Snake-icon.png');
-  game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
-  game.load.image(ballColors[7],'assets/whale-icon.png');
+  game.load.image(ballColors[1],'assets/orb-blue.png');
+  game.load.image(ballColors[2],'assets/orb-green.png');
+  game.load.image(ballColors[3],'assets/orb-red.png');
+  game.load.image(ballColors[4],'assets/orb-blue.png');
+  game.load.image(ballColors[5],'assets/orb-green.png');
+  game.load.image(ballColors[6],'assets/orb-red.png');
+  game.load.image(ballColors[7],'assets/orb-blue.png');
+  game.load.image(ballColors[8],'assets/orb-green.png');
+  game.load.image(ballColors[9],'assets/orb-red.png');
+  game.load.image(ballColors[10],'assets/orb-red.png');
+  game.load.image(ballColors[11],'assets/orb-blue.png');
+  game.load.image(ballColors[12],'assets/orb-green.png');
+  game.load.image(ballColors[13],'assets/orb-red.png');
+
+  //game.load.image(ballColors[1],'assets/tuna-icon.png');
+  //game.load.image(ballColors[2],'assets/Bee-icon.png');
+  //game.load.image(ballColors[3],'assets/Fish-icon.png');
+  //game.load.image(ballColors[4],'assets/seal-icon.png');
+  //game.load.image(ballColors[5],'assets/Snake-icon.png');
+  //game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
+  //game.load.image(ballColors[7],'assets/whale-icon.png');
 
   // game.load.image("background", "assets/bg_underwater.jpg");
 }
@@ -51,6 +69,7 @@ function createNewPlayer(id,name,ballColorString,location)
 function generateSnakeHeadForPlayer(location,ballColorString)
 {
   var snakeHead = game.add.sprite(location.x, location.y, ballColorString);
+  snakeHead.anchor.setTo(0.5, 0.5);
   game.physics.enable(snakeHead, Phaser.Physics.ARCADE);
   snakeHead.body.collideWorldBounds = true;
   return snakeHead;
@@ -64,7 +83,6 @@ function createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePat
 function createCollisionDetection()
 {
   console.log("collision detection called");
-
   var playerKeyArray = Object.keys(players);
   for(x=0; x < playerKeyArray.length; x+=1)
   {
@@ -83,7 +101,7 @@ function create() {
   // debugger;
   // game.add.tileSprite(0, 0, 0, 0, 'background');
 
-  var socket = io.connect();
+  socket = io.connect();
   // Create new player
   
   // var num = 100;
@@ -92,7 +110,6 @@ function create() {
   //   num += 50;
   // });
    
-
   // createNewPlayer(1,"Kevin",ballColors[1],new Phaser.Point(100,100));
   // createNewPlayer(2,"Frank",ballColors[2],new Phaser.Point(300,300));
   // createNewPlayer(3,"Bob"  ,ballColors[3],new Phaser.Point(400,400));
@@ -112,47 +129,58 @@ function create() {
     console.log(players[key].name);
   });
 
+  setEventHandlers();
 }
 
+var setEventHandlers = function () {
+ 
+   socket.on('new player', onNewPlayerfunction);
 
+}
+
+var onNewPlayerfunction = function(data) {
+
+  console.log("new player socket called many times!!!!!!!!");
+  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[1],new Phaser.Point(300,300));
+  num += 50;
+  icon_index += 1;
+}
 
 function update() {
 
-  var socket = io.connect();
 
-  var player = players[1];
-  var snakeSpacer = 3;
-
-  var num = 100;
-  var icon_index = 1;
-  socket.on('new player', function (data) {
-
-    createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
-    num += 50;
-    icon_index += 1;
-
-    players[data.game_player_id].snakeHead.body.angularVelocity = 0;
-    players[data.game_player_id].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 300));
-
-  });
-      
   Object.keys(players).forEach(key => {  
       players[key].snakeHead.body.velocity.setTo(0, 0);
       players[key].snakeHead.body.angularVelocity = 0;
       players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
-    });
+ 
+    //Part of the slither animation
+    if (players[key].snakeSection.length > 0 && players[key].snakeHead.alive === true) {
+      
+      var part = players[key].snakePath.pop();
+      part.setTo(players[key].snakeHead.x, players[key].snakeHead.y);
+      players[key].snakePath.unshift(part);
+
+      for (var i = 0; i < players[key].snakeSection.length; i++)
+      {
+        players[key].snakeSection[i].x = (players[key].snakePath[(i+1) * snakeSpacer]).x;
+        players[key].snakeSection[i].y = (players[key].snakePath[(i+1) * snakeSpacer]).y;
+      }
+
+    }
+  });
 
   socket.on('left move', function (data) {    
         // player.snakeHead.body.angularVelocity = -300000;
-        players[data.player_id].snakeHead.body.angularVelocity = -300000;
+        players[data.player_id].snakeHead.body.angularVelocity = -30000;
   }); 
 
   socket.on('right move', function (data) {
         // player.snakeHead.body.angularVelocity = 300000;
-        players[data.player_id].snakeHead.body.angularVelocity = 300000;
+        players[data.player_id].snakeHead.body.angularVelocity = 30000;//300000;
   });     
 
-  console.log(getAlivePlayers().toString());
+  //console.log(getAlivePlayers().toString());
   // if (cursors.left.isDown) {
   //   player.snakeHead.body.angularVelocity = -300;
   // }
@@ -179,31 +207,37 @@ function getPlayerKeyFromSnakeHead(snakeHead)
 function appendSnakeSection(sectionKey, sectionToAppendKey)
 {
 
+  console.log('appending being called');
+    //Ugly code need to clean up
+  var snakePathToAppend = [];
+  var snakePathToAppend2 = [];
   var sectionObj = players[sectionKey];
   var sectionToAppendObj = players[sectionToAppendKey];
-  //duplicate sectionTobeAppended
-  var newSnakeSection = game.add.sprite(sectionToAppendObj.x,sectionToAppendObj.y,sectionToAppendObj.key);
-  newSnakeSection.anchor.setTo(0,0);
-  //push section to player snake section
-  sectionObj.snakeSection.push(newSnakeSection);
-  sectionObj.snakePath.push(new Phaser.Point(sectionToAppendObj.x,sectionToAppendObj.y));
-  //destroy the section to append sprite
-  sectionToAppendObj.snakeHead.destroy();
-  //delete players[sectionToAppendKey];
-  //var sectionObj = players[sectionKey];
-  //var sectionToAppendObj = players[sectionToAppendKey];
-  //duplicate sectionTobeAppended
-  //var newSnakeSection = game.add.sprite(sectionToAppendObj.x,sectionToAppendObj.y,sectionToAppendObj.key);
-  //newSnakeSection.anchor.setTo(0.5,0.5);
-  //push section to player snake section
-  //sectionObj.snakeSection.push(newSnakeSection);
-  //sectionObj.snakePath.push(new Phaser.Point(sectionToAppendObj.x,sectionToAppendObj.y));
-  //destroy the section to append sprite
-  //sectionToAppendObj.snakeHead.kill();
-  //remove the player from the hash
-  //console.log("players before delete: ", Object.keys(players).length);
-  //delete players[sectionToAppendKey];
-  //console.log("players after delete: ", Object.keys(players).length);
+
+  //-----duplicate sectionTobeAppended-----
+  //add the snake head
+  var copyOfSnakeHead = game.add.sprite(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeHead.key);
+  copyOfSnakeHead.anchor.setTo(0.5,0.5);
+ 
+  sectionObj.snakeSection.push(copyOfSnakeHead);
+  for(var i = 0; i <= (snakeSpacer*(1+sectionToAppendObj.snakeSection.length)); i++)
+  {
+    snakePathToAppend[i] = new Phaser.Point(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y);
+  }
+
+  sectionObj.snakePath = sectionObj.snakePath.concat(snakePathToAppend);
+
+  for(var x = 0; x < sectionToAppendObj.snakeSection.length; x++)
+  {
+
+    var section = game.add.sprite(sectionToAppendObj.snakeHead.x, sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeSection[x].key);
+    snakePathToAppend2[x] = new Phaser.Point(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y);
+    section.anchor.setTo(0.5,0.5);
+    sectionObj.snakeSection.push(section);
+    sectionToAppendObj.snakeSection[x].kill();
+  }
+  sectionObj.snakePath = sectionObj.snakePath.concat(snakePathToAppend2);
+  sectionToAppendObj.snakeHead.kill();
 }
 function processCallback(snakeHead1, snakeHead2) //process when two snakeHeads collide!
 {
@@ -213,17 +247,31 @@ function processCallback(snakeHead1, snakeHead2) //process when two snakeHeads c
 function collisionCallback(snakeHead1, snakeHead2) 
 {
 
+
+  console.log("collision callback called!!!!!!!!");
   var playerOneObjectKey = getPlayerKeyFromSnakeHead(snakeHead1);
   var playerTwoObjectKey = getPlayerKeyFromSnakeHead(snakeHead2);
 
-  console.log('Collision!');
+  var firstPlayer = Object.keys(players)[0];
+  console.log(firstPlayer);
+  
+  if( (playerOneObjectKey === firstPlayer) || (playerTwoObjectKey === firstPlayer) ) {
+ 
+    if (playerOneObjectKey === firstPlayer) {
+        appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
+    } else {
+        appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
+    }
 
-  if(playerOneObjectKey == 1) {
-    snakeHead2.kill();
-    //appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
-  }else {
-    //appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
-    snakeHead1.kill();
+    if (playerTwoObjectKey === firstPlayer) {
+      appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
+    
+    } else {
+      appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
+    }
+
+  } else {
+    appendSnakeSection(playerTwoObjectKey,playerOneObjectKey)
   }
 
 }
