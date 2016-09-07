@@ -15,9 +15,14 @@ var ballColors = {1 : 'blue', 2: 'green',3:'red'};
 function preload() {
 
   game.load.image(ballColors[1],'assets/tuna-icon.png');
-  game.load.image(ballColors[2],'assets/orb-green.png');
-  game.load.image(ballColors[3],'assets/orb-red.png');
+  game.load.image(ballColors[2],'assets/Bee-icon.png');
+  game.load.image(ballColors[3],'assets/Fish-icon.png');
+  game.load.image(ballColors[4],'assets/seal-icon.png');
+  game.load.image(ballColors[5],'assets/Snake-icon.png');
+  game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
+  game.load.image(ballColors[7],'assets/whale-icon.png');
 
+  // game.load.image("background", "assets/bg_underwater.jpg");
 }
 
 function createNewPlayer(id,name,ballColorString,location)
@@ -65,6 +70,8 @@ function create() {
 
   // createNewPlayer(1, "init user", ballColors[1],new Phaser.Point(300,300));
   // debugger;
+  // game.add.tileSprite(0, 0, 0, 0, 'background');
+
   var socket = io.connect();
   // Create new player
   
@@ -81,9 +88,7 @@ function create() {
   // createNewPlayer(4,"ken"  ,ballColors[3],new Phaser.Point(500,400));
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.world.setBounds(0, 0, 
-    900,
-    600 );
+  game.world.setBounds(0, 0, window.screen.availWidth * window.devicePixelRatio, 600);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -104,31 +109,32 @@ function update() {
   var snakeSpacer = 3;
 
   var num = 100;
-  socket.on('new player', function (data) { 
-    createNewPlayer(data.game_player_id, data.game_player_name, ballColors[1],new Phaser.Point(300,300));
-    // debugger;
+  var icon_index = 1;
+  socket.on('new player', function (data) {
+
+    createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
     num += 50;
+    icon_index += 1;
+
+    players[data.game_player_id].snakeHead.body.angularVelocity = 0;
+    players[data.game_player_id].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 300));
+
   });
       
-  socket.on('new player', function (data) {
-    players[data.game_player_id].snakeHead.body.angularVelocity = 0;
-    players[data.game_player_id].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(player.snakeHead.angle, 400));
-  });
-
   Object.keys(players).forEach(key => {  
       players[key].snakeHead.body.velocity.setTo(0, 0);
       players[key].snakeHead.body.angularVelocity = 0;
-      players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 400));
+      players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
     });
 
   socket.on('left move', function (data) {    
         // player.snakeHead.body.angularVelocity = -300000;
-        players[data.player_id].snakeHead.body.angularVelocity = -30000;
+        players[data.player_id].snakeHead.body.angularVelocity = -300000;
   }); 
 
   socket.on('right move', function (data) {
         // player.snakeHead.body.angularVelocity = 300000;
-        players[data.player_id].snakeHead.body.angularVelocity = 30000;
+        players[data.player_id].snakeHead.body.angularVelocity = 300000;
   });     
 
     
