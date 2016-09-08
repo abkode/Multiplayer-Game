@@ -56,7 +56,19 @@ LinkedList.prototype.findNode = function (val) {
   } while (currentNode !== this.head);
 
 }
+//Convert {client.id: target.id, client2.id: target2.id, ...}
+LinkedList.prototype.flattenTargets = function () {
 
+  var targetsHash = {}; 
+  var currentNode = this.head;
+
+  do {
+    targetsHash[currentNode.data] = currentNode.next.data 
+    currentNode = currentNode.next;
+
+  } while (currentNode !== this.head);
+  return targetsHash;
+}
 LinkedList.prototype.deleteNode = function (val) {
 
   // If linked list is empty
