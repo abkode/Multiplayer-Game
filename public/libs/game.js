@@ -6,43 +6,49 @@ var game = new Phaser.Game(
   Phaser.CANVAS, 
   '#game', 
   { preload: preload, create: create, update: update,render : render }
-  );
+ );
 
 var players = {};
-
 var num = 100;
 var icon_index = 1;
 var snakeSpacer = 10;
 var socket;
+var backgroundMusic;
+var shrinkSound;
+
  
 var ballColors = {1 : 'blue',2: 'green',3: 'red',4: 'green',5: 'yellow',6: 'orange',7: 'brown',8: ''};
 var targets = new LinkedList();
 
 function preload() {
+  // game.load.image(ballColors[1],'assets/orb-blue.png');
+  // game.load.image(ballColors[2],'assets/orb-green.png');
+  // game.load.image(ballColors[3],'assets/orb-red.png');
+  // game.load.image(ballColors[4],'assets/orb-blue.png');
+  // game.load.image(ballColors[5],'assets/orb-green.png');
+  // game.load.image(ballColors[6],'assets/orb-red.png');
+  // game.load.image(ballColors[7],'assets/orb-blue.png');
+  // game.load.image(ballColors[8],'assets/orb-green.png');
+  // game.load.image(ballColors[9],'assets/orb-red.png');
+  // game.load.image(ballColors[10],'assets/orb-red.png');
+  // game.load.image(ballColors[11],'assets/orb-blue.png');
+  // game.load.image(ballColors[12],'assets/orb-green.png');
+  // game.load.image(ballColors[13],'assets/orb-red.png');
 
-  game.load.image(ballColors[1],'assets/orb-blue.png');
-  game.load.image(ballColors[2],'assets/orb-green.png');
-  game.load.image(ballColors[3],'assets/orb-red.png');
-  game.load.image(ballColors[4],'assets/orb-blue.png');
-  game.load.image(ballColors[5],'assets/orb-green.png');
-  game.load.image(ballColors[6],'assets/orb-red.png');
-  game.load.image(ballColors[7],'assets/orb-blue.png');
-  game.load.image(ballColors[8],'assets/orb-green.png');
-  game.load.image(ballColors[9],'assets/orb-red.png');
-  game.load.image(ballColors[10],'assets/orb-red.png');
-  game.load.image(ballColors[11],'assets/orb-blue.png');
-  game.load.image(ballColors[12],'assets/orb-green.png');
-  game.load.image(ballColors[13],'assets/orb-red.png');
+  game.load.image(ballColors[1],'assets/tuna-icon.png');
+  game.load.image(ballColors[2],'assets/Bee-icon.png');
+  game.load.image(ballColors[3],'assets/Fish-icon.png');
+  game.load.image(ballColors[4],'assets/seal-icon.png');
+  game.load.image(ballColors[5],'assets/Snake-icon.png');
+  game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
+  game.load.image(ballColors[7],'assets/whale-icon.png');
 
-  //game.load.image(ballColors[1],'assets/tuna-icon.png');
-  //game.load.image(ballColors[2],'assets/Bee-icon.png');
-  //game.load.image(ballColors[3],'assets/Fish-icon.png');
-  //game.load.image(ballColors[4],'assets/seal-icon.png');
-  //game.load.image(ballColors[5],'assets/Snake-icon.png');
-  //game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
-  //game.load.image(ballColors[7],'assets/whale-icon.png');
+  game.load.audio('backgroundMusic', 'assets/supermario.mp3');
+  game.load.audio('shrink', 'assets/shrink.wav');
+  game.load.audio('hurry', 'assets/hurry.mp3');
 
-  // game.load.image("background", "assets/bg_underwater.jpg");
+  game.load.image("background", "assets/mario.jpg");
+ 
 }
 function getAlivePlayers() 
 {
@@ -72,6 +78,7 @@ function generateSnakeHeadForPlayer(location,ballColorString)
   snakeHead.anchor.setTo(0.5, 0.5);
   game.physics.enable(snakeHead, Phaser.Physics.ARCADE);
   snakeHead.body.collideWorldBounds = true;
+  //snakeHead.body.bounce.set(2);
   return snakeHead;
 }
 
@@ -95,6 +102,17 @@ function createCollisionDetection()
 
 }
 function create() {
+
+  backgroundMusic = this.game.add.audio('backgroundMusic');
+  shrinkSound = this.game.add.audio('shrink');
+  hurryMusic = this.game.add.audio('hurry');
+
+  backgroundMusic.volume = 0.3;
+  backgroundMusic.loop = true;
+  backgroundMusic.play();
+
+  //game.stage.backgroundColor = "#2B2B2B";
+  background = game.add.tileSprite(0, 0, 1920, 1200, "background");
 
   socket = io.connect();
 
@@ -127,8 +145,20 @@ var onNewPlayerfunction = function(data) {
   createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
   targets.insertNodeAtTail(data.game_player_id);
 
+
+ if(targets._length > 2) {
+
+   if (backgroundMusic.isPlaying) {
+
+      backgroundMusic.fadeOut();
+      hurryMusic.loop = true;
+      hurryMusic.fadeIn();
+    }
+  }
+
   num += 50;
   icon_index += 1;
+
 }
 
 function update() {
@@ -156,15 +186,14 @@ function update() {
   });
 
   socket.on('left move', function (data) {    
-        // player.snakeHead.body.angularVelocity = -300000;
-        players[data.player_id].snakeHead.body.angularVelocity = -3000000;
+         players[data.player_id].snakeHead.body.angularVelocity = -300000;
+         //players[data.player_id].snakeHead.body.velocity-3000000; 
 
   }); 
 
   socket.on('right move', function (data) {
-        // player.snakeHead.body.angularVelocity = 300000;
-
-        players[data.player_id].snakeHead.body.angularVelocity = 300000;
+         players[data.player_id].snakeHead.body.angularVelocity = 300000;
+         //players[data.player_id].snakeHead.body.velocity.setTo(100,0);//300000;
   });     
 
   createCollisionDetection();
@@ -184,13 +213,13 @@ function getPlayerKeyFromSnakeHead(snakeHead)
 }
 function appendSnakeSection(sectionKey, sectionToAppendKey)
 {
-
-  console.log('appending being called');
     //Ugly code need to clean up
   var snakePathToAppend = [];
   var snakePathToAppend2 = [];
   var sectionObj = players[sectionKey];
   var sectionToAppendObj = players[sectionToAppendKey];
+
+  shrinkSound.play();
 
   //-----duplicate sectionTobeAppended-----
   //add the snake head
@@ -227,20 +256,19 @@ function collisionCallback(snakeHead1, snakeHead2)
   game_player_one_node = targets.findNode(game_player_id_one);
   game_player_two_node = targets.findNode(game_player_id_two);
 
-if(targets._length > 2) {
+  if(targets._length > 2) {
 
-  if(game_player_one_node.next.data == game_player_id_two)
-  {
-    snakeHead2.kill();
-    targets.deleteNode(game_player_id_two);
-  }else if(game_player_two_node.next.data == game_player_id_one) {
-    snakeHead1.kill();
-    targets.deleteNode(game_player_id_one);
-  } 
+    if(game_player_one_node.next.data == game_player_id_two)
+    {
+      targets.deleteNode(game_player_id_two);
+      appendSnakeSection(game_player_id_one, game_player_id_two)
+    }else if(game_player_two_node.next.data == game_player_id_one) {
+      targets.deleteNode(game_player_id_one);
+      appendSnakeSection(game_player_id_two, game_player_id_one)
+    } 
+  }
+
 }
-
-}
-
 function render() {
 
 
