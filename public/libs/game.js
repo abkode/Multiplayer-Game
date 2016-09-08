@@ -10,7 +10,7 @@ var game = new Phaser.Game(
   );
 
 var players = {};
-var ballColors = {1 : 'blue', 2: 'green',3:'red'};
+var ballColors = {1 : 'blue',2: 'green',3: 'red',4: 'green',5: 'yellow',6: 'orange',7: 'brown'};
 var targets = new LinkedList();
 
 function preload() {
@@ -86,7 +86,6 @@ function create() {
 
   var socket = io.connect();
 
-  targets = new LinkedList();
   // targets.insertNodeAtTail(1);
   // targets.insertNodeAtTail(2);
   // console.log(targets);
@@ -224,18 +223,41 @@ function processCallback(snakeHead1, snakeHead2) //process when two snakeHeads c
 function collisionCallback(snakeHead1, snakeHead2) 
 {
 
-  var playerOneObjectKey = getPlayerKeyFromSnakeHead(snakeHead1);
-  var playerTwoObjectKey = getPlayerKeyFromSnakeHead(snakeHead2);
+  var game_player_id_one = getPlayerKeyFromSnakeHead(snakeHead1);
+  var game_player_id_two = getPlayerKeyFromSnakeHead(snakeHead2);
 
-  console.log('Collision!');
+  game_player_one_node = targets.findNode(game_player_id_one);
+  game_player_two_node = targets.findNode(game_player_id_two);
 
-  if(playerOneObjectKey == 1) {
+  // console.log("player ids",game_player_id_one,game_player_id_two);
+
+  // console.log('Collision!');
+  // console.log('Targets' + targets.findNode(game_player_id_one) + " " + targets.findNode(game_player_id_two)); 
+if(targets._length > 2) {
+
+  if(game_player_one_node.next.data == game_player_id_two)
+  {
     snakeHead2.kill();
-    //appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
-  }else {
-    //appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
+    targets.deleteNode(game_player_id_two);
+  }else if(game_player_two_node.next.data == game_player_id_one) {
     snakeHead1.kill();
-  }
+    targets.deleteNode(game_player_id_one);
+  } 
+}
+  // 
+  // {
+    
+  //   targets(game_player_id_one).next() === game_player_id_two)
+
+    // if(playerOneObjectKey == 1) {
+    //   snakeHead2.kill();
+    //   //appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
+    // }else {
+    //   //appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
+    //   snakeHead1.kill();
+    // }
+ //}
+
 
 }
 function render() {

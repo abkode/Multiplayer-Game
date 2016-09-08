@@ -32,7 +32,22 @@ LinkedList.prototype.findNodeBeforeDelete = function (val) {
   var currentNode = this.head; 
 
   do {
-    if (currentNode.next.data === val) {
+    if (currentNode.next.data == val) {
+      return currentNode;
+    }  
+    currentNode = currentNode.next;
+
+
+  } while (currentNode !== this.head);
+
+}
+
+LinkedList.prototype.findNode = function (val) {
+
+  var currentNode = this.head; 
+
+  do {
+    if (currentNode.data == val) {
       return currentNode;
     }  
     currentNode = currentNode.next;
@@ -50,7 +65,7 @@ LinkedList.prototype.deleteNode = function (val) {
     return;
   }
   // if you have to delete the head
-  if (this.head.data === val) {
+  if (this.head.data == val) {
       this.head = this.head.next;
       this.tail.next = this.head;
 
@@ -60,7 +75,7 @@ LinkedList.prototype.deleteNode = function (val) {
 
     nodeBeforeDelete.next = nodeToDelete.next;
 
-    if (this.tail.data === val) {
+    if (this.tail.data == val) {
       this.tail = nodeBeforeDelete;
     }
   }

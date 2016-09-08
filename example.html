@@ -54,6 +54,21 @@ LinkedList.prototype.findNodeBeforeDelete = function (val) {
 
 }
 
+LinkedList.prototype.findNode = function (val) {
+
+  var currentNode = this.head; 
+
+  do {
+    if (currentNode.data === val) {
+      return currentNode;
+    }  
+    currentNode = currentNode.next;
+
+
+  } while (currentNode !== this.head);
+
+}
+
 
 
 
