@@ -30,14 +30,14 @@ $(function($){
     //  });
 
     $('#btn_left').on('click', function(){
-        $( document.body ).trigger({
+        $("body").trigger({
                 type: 'keydown',
                 which: 37,
                 keyCode: 37
             });
     });
     $('#btn_right').on('click', function(){
-        $( document.body ).trigger({
+        $("body").trigger({
                 type: 'keydown',
                 which: 39,
                 keyCode: 39

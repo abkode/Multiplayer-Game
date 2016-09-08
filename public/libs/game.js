@@ -1,6 +1,5 @@
 // Snake by Patrick OReilly and Richard Davey
 // Twitter: @pato_reilly Web: http://patricko.byethost9.com
-
 var game = new Phaser.Game(
   window.screen.availWidth * window.devicePixelRatio,
   window.screen.availHeight * window.devicePixelRatio, 
@@ -10,11 +9,14 @@ var game = new Phaser.Game(
   );
 
 var players = {};
-var ballColors = {1 : 'blue', 2: 'green',3:'red'};
+
 var num = 100;
 var icon_index = 1;
 var snakeSpacer = 10;
 var socket;
+ 
+var ballColors = {1 : 'blue',2: 'green',3: 'red',4: 'green',5: 'yellow',6: 'orange',7: 'brown',8: ''};
+var targets = new LinkedList();
 
 function preload() {
 
@@ -43,13 +45,13 @@ function preload() {
   // game.load.image("background", "assets/bg_underwater.jpg");
 }
 function getAlivePlayers() 
-//return an array of players keys of alive players
 {
-  
+
   var alivePlayers = Object.keys(players).map(function(playerKey) {
 
     if(players[playerKey].snakeHead.alive === true);
     return(playerKey);
+
   });
 
   return(alivePlayers);
@@ -57,9 +59,7 @@ function getAlivePlayers()
 }
 function createNewPlayer(id,name,ballColorString,location)
 {
-  console.log("create new player called!!!!!");
   var snakeHead = generateSnakeHeadForPlayer(location,ballColorString);
-
   var snakeSection = new Array();
   var snakePath = new Array();
   var playerObject = createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePath);
@@ -82,7 +82,7 @@ function createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePat
 
 function createCollisionDetection()
 {
-  console.log("collision detection called");
+
   var playerKeyArray = Object.keys(players);
   for(x=0; x < playerKeyArray.length; x+=1)
   {
@@ -94,26 +94,9 @@ function createCollisionDetection()
   }
 
 }
-
 function create() {
 
-  // createNewPlayer(1, "init user", ballColors[1],new Phaser.Point(300,300));
-  // debugger;
-  // game.add.tileSprite(0, 0, 0, 0, 'background');
-
   socket = io.connect();
-  // Create new player
-  
-  // var num = 100;
-  // socket.on('new player', function (game_player_name, game_player_id) { 
-  //   createNewPlayer(2, "Abozar", ballColors[1],new Phaser.Point(num,num));
-  //   num += 50;
-  // });
-   
-  // createNewPlayer(1,"Kevin",ballColors[1],new Phaser.Point(100,100));
-  // createNewPlayer(2,"Frank",ballColors[2],new Phaser.Point(300,300));
-  // createNewPlayer(3,"Bob"  ,ballColors[3],new Phaser.Point(400,400));
-  // createNewPlayer(4,"ken"  ,ballColors[3],new Phaser.Point(500,400));
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -141,18 +124,20 @@ var setEventHandlers = function () {
 var onNewPlayerfunction = function(data) {
 
   console.log("new player socket called many times!!!!!!!!");
-  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[1],new Phaser.Point(300,300));
+  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
+  targets.insertNodeAtTail(data.game_player_id);
+
   num += 50;
   icon_index += 1;
 }
 
 function update() {
 
-
   Object.keys(players).forEach(key => {  
-      players[key].snakeHead.body.velocity.setTo(0, 0);
-      players[key].snakeHead.body.angularVelocity = 0;
-      players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
+    players[key].snakeHead.body.velocity.setTo(0, 0);
+    players[key].snakeHead.body.angularVelocity = 0;
+
+    players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
  
     //Part of the slither animation
     if (players[key].snakeSection.length > 0 && players[key].snakeHead.alive === true) {
@@ -172,24 +157,17 @@ function update() {
 
   socket.on('left move', function (data) {    
         // player.snakeHead.body.angularVelocity = -300000;
-        players[data.player_id].snakeHead.body.angularVelocity = -30000;
+        players[data.player_id].snakeHead.body.angularVelocity = -3000000;
+
   }); 
 
   socket.on('right move', function (data) {
         // player.snakeHead.body.angularVelocity = 300000;
-        players[data.player_id].snakeHead.body.angularVelocity = 30000;//300000;
+
+        players[data.player_id].snakeHead.body.angularVelocity = 300000;
   });     
 
-  //console.log(getAlivePlayers().toString());
-  // if (cursors.left.isDown) {
-  //   player.snakeHead.body.angularVelocity = -300;
-  // }
-  // else if (cursors.right.isDown) {
-  //   player.snakeHead.body.angularVelocity = 300;
-  // }
-
   createCollisionDetection();
-
 
 }
 function getPlayerKeyFromSnakeHead(snakeHead)
@@ -238,46 +216,32 @@ function appendSnakeSection(sectionKey, sectionToAppendKey)
   }
   sectionObj.snakePath = sectionObj.snakePath.concat(snakePathToAppend2);
   sectionToAppendObj.snakeHead.kill();
-}
-function processCallback(snakeHead1, snakeHead2) //process when two snakeHeads collide!
-{
-  
- 
+
 }
 function collisionCallback(snakeHead1, snakeHead2) 
 {
 
+  var game_player_id_one = getPlayerKeyFromSnakeHead(snakeHead1);
+  var game_player_id_two = getPlayerKeyFromSnakeHead(snakeHead2);
 
-  console.log("collision callback called!!!!!!!!");
-  var playerOneObjectKey = getPlayerKeyFromSnakeHead(snakeHead1);
-  var playerTwoObjectKey = getPlayerKeyFromSnakeHead(snakeHead2);
+  game_player_one_node = targets.findNode(game_player_id_one);
+  game_player_two_node = targets.findNode(game_player_id_two);
 
-  var firstPlayer = Object.keys(players)[0];
-  console.log(firstPlayer);
-  
-  if( (playerOneObjectKey === firstPlayer) || (playerTwoObjectKey === firstPlayer) ) {
- 
-    if (playerOneObjectKey === firstPlayer) {
-        appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
-    } else {
-        appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
-    }
+if(targets._length > 2) {
 
-    if (playerTwoObjectKey === firstPlayer) {
-      appendSnakeSection(playerTwoObjectKey,playerOneObjectKey);
-    
-    } else {
-      appendSnakeSection(playerOneObjectKey,playerTwoObjectKey);
-    }
-
-  } else {
-    appendSnakeSection(playerTwoObjectKey,playerOneObjectKey)
-  }
+  if(game_player_one_node.next.data == game_player_id_two)
+  {
+    snakeHead2.kill();
+    targets.deleteNode(game_player_id_two);
+  }else if(game_player_two_node.next.data == game_player_id_one) {
+    snakeHead1.kill();
+    targets.deleteNode(game_player_id_one);
+  } 
+}
 
 }
+
 function render() {
 
-  // game.debug.body(players[1].snakeHead);
-  // game.debug.body(players[2].snakeHead);
 
 }
