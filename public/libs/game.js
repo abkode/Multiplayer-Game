@@ -152,7 +152,7 @@ var onMove = function (movement_data) {
   console.log('controller x from game:  ' + movement_data.deltaX);
   console.log('controller y from game:  ' + movement_data.deltaY);
 
-  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX,movement_data.deltaY);
+  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX*2,movement_data.deltaY*2);
 }   
 
 var onNewPlayerfunction = function(data) {
