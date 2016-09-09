@@ -113,7 +113,7 @@ function create() {
 
   backgroundMusic.volume = 0.3;
   backgroundMusic.loop = true;
-  backgroundMusic.play();
+  //backgroundMusic.play();
 
   //game.stage.backgroundColor = "#2B2B2B";
   background = game.add.tileSprite(0, 0, 1920, 1200, "background");
@@ -142,8 +142,18 @@ function create() {
 var setEventHandlers = function () {
  
    socket.on('new player', onNewPlayerfunction);
+   socket.on('move', onMove);
 
 }
+
+var onMove = function (movement_data) {
+  //debugger;
+  console.log('controller id from game:  ' + movement_data.controller_id);
+  console.log('controller x from game:  ' + movement_data.deltaX);
+  console.log('controller y from game:  ' + movement_data.deltaY);
+
+  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX,movement_data.deltaY);
+}   
 
 var onNewPlayerfunction = function(data) {
 
@@ -151,11 +161,9 @@ var onNewPlayerfunction = function(data) {
   createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
   targets.insertNodeAtTail(data.game_player_id);
 
-
  if(targets._length > 2) {
 
    if (backgroundMusic.isPlaying) {
-
       backgroundMusic.fadeOut();
       hurryMusic.loop = true;
       hurryMusic.fadeIn();
@@ -170,10 +178,9 @@ var onNewPlayerfunction = function(data) {
 function update() {
 
   Object.keys(players).forEach(key => {  
-    players[key].snakeHead.body.velocity.setTo(0, 0);
-    players[key].snakeHead.body.angularVelocity = 0;
-
-    players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
+    //players[key].snakeHead.body.velocity.setTo(0, 0);
+    //players[key].snakeHead.body.angularVelocity = 0;
+    //players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
  
     //Part of the slither animation
     if (players[key].snakeSection.length > 0 && players[key].snakeHead.alive === true) {
@@ -191,16 +198,18 @@ function update() {
     }
   });
 
-  socket.on('left move', function (data) {    
-         players[data.player_id].snakeHead.body.angularVelocity = -300000;
-         //players[data.player_id].snakeHead.body.velocity-3000000; 
+  // socket.on('left move', function (data) {    
+  //        players[data.player_id].snakeHead.body.angularVelocity = -300000;
+  //        //players[data.player_id].snakeHead.body.velocity-3000000; 
 
-  }); 
+  // }); 
 
-  socket.on('right move', function (data) {
-         players[data.player_id].snakeHead.body.angularVelocity = 300000;
-         //players[data.player_id].snakeHead.body.velocity.setTo(100,0);//300000;
-  });     
+  // socket.on('right move', function (data) {
+  //        players[data.player_id].snakeHead.body.angularVelocity = 300000;
+  //        //players[data.player_id].snakeHead.body.velocity.setTo(100,0);//300000;
+  // });    
+
+
 
   createCollisionDetection();
 

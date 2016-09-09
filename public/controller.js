@@ -8,7 +8,7 @@ $(function($){
         var gameID_user = $('#input_game_id').val();
         socket.emit('add user', player_name);
         
-         socket.on('login', function (data) { 
+        socket.on('login', function (data) { 
             $('#user_form').remove();
             $('#controller').show();
             var joystick = new VirtualJoystick({
@@ -19,9 +19,23 @@ $(function($){
                 limitStickTravel: true,
                 stickRadius: 100
             });
-            var id = data.game_player_id;
-            $('#controller_id').val(id);
-            // debugger;
+
+        var id = data.game_player_id;
+        $('#controller_id').val(id);
+
+        setInterval(function() {
+            var outputEl  = document.getElementById('result');
+            socket.emit('move', {controller_id: id, deltaX: joystick.deltaX(), deltaY: joystick.deltaY()});
+            //console.log( joystick.deltaX(), joystick.deltaY())
+          // outputEl.innerHTML  = '<b>Result:</b> '
+          //   + ' dx:'+joystick.deltaX()
+          //   + ' dy:'+joystick.deltaY()
+          //   + (joystick.right() ? ' right'  : '')s
+          //   + (joystick.up()  ? ' up'   : '')
+          //   + (joystick.left()  ? ' left' : '')
+          //   + (joystick.down()  ? ' down'   : '') 
+         },  1/10 * 1000);
+   
         });
 
     });

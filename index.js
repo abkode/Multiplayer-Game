@@ -62,10 +62,17 @@ io.sockets.on('connection', function (socket) {
             game_id: game_id 
         });
 
+        socket.on('move', function (controller_data) {
+            // console.log('move called!');
+            // console.log('controller_id',controller_data.controller_id);
+            // console.log('server deltaX',controller_data.deltaX);
+            // console.log('server deltaY',controller_data.deltaY);
+            socket.broadcast.emit('move', controller_data);
+        });
+            //{controller_id: controller_id, deltaX: joystick.deltaX(), deltaY: joystick.deltaY()});
         socket.on('left move', function (controller_id) {
             socket.broadcast.emit('left move', {player_id: controller_id});
          });
-
         socket.on('right move', function (controller_id) {
             socket.broadcast.emit('right move', {player_id: controller_id});
          }); 
