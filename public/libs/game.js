@@ -75,7 +75,7 @@ function getAlivePlayers()
 }
 function createNewPlayer(id,name,ballColorString,location)
 {
-  var snakeHead = generateSnakeHeadForPlayer(location,ballColorString);
+  var snakeHead = generateSnakeHeadForPlayer(location,ballColorString, name);
   var snakeSection = new Array();
   var snakePath = new Array();
   var playerObject = createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePath);
@@ -83,9 +83,17 @@ function createNewPlayer(id,name,ballColorString,location)
   players[id] = playerObject;
 
 }
-function generateSnakeHeadForPlayer(location,ballColorString)
+function generateSnakeHeadForPlayer(location,ballColorString, name)
 {
   var snakeHead = game.add.sprite(location.x, location.y, ballColorString);
+  var playerLabelStyle = { font: "30px Arial", fill: "#ffffff", align: "center" };  
+  var label_name = game.add.text(0, -35, name, playerLabelStyle);
+  label_name.anchor.set(0.5);
+
+
+  snakeHead.addChild(label_name);
+
+
   snakeHead.anchor.setTo(0.5, 0.5);
   game.physics.enable(snakeHead, Phaser.Physics.ARCADE);
   snakeHead.body.collideWorldBounds = true;

@@ -18,8 +18,8 @@ $(function($){
                 // stationaryBase: true,
                 // baseX: 175,
                 // baseY: 200,
-                // limitStickTravel: true,
-                // stickRadius: 100
+                limitStickTravel: true,
+                stickRadius: 100
             });
 
             var id = data.game_player_id;
@@ -65,31 +65,3 @@ $(function($){
 
     });
 
-    // $('#btn_left').on('click', function(){
-    //     $("body").trigger({
-    //             type: 'keydown',
-    //             which: 37,
-    //             keyCode: 37
-    //         });
-    // });
-    // $('#btn_right').on('click', function(){
-    //     $("body").trigger({
-    //             type: 'keydown',
-    //             which: 39,
-    //             keyCode: 39
-    //         });
-    // });
-
-     // $("body").keydown(function(e) {
-     //     if(e.keyCode == 37) { // left 
-     //        var controller_id =  $('#controller_id').val();
-     //        socket.emit('left move', controller_id);
-     //     }
-     //     else if(e.keyCode == 39) { // right
-     //        var controller_id =  $('#controller_id').val();
-     //        socket.emit('right move', controller_id);
-     //     }
-     //  });
-    
-
-// });
