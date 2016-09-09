@@ -24,6 +24,20 @@ $(function($){
 
             var id = data.game_player_id;
             $('#controller_id').val(id);
+
+             setInterval(function() {
+                var outputEl  = document.getElementById('result');
+                socket.emit('move', {controller_id: id, deltaX: joystick.deltaX(), deltaY: joystick.deltaY()});
+                //console.log( joystick.deltaX(), joystick.deltaY())
+            // outputEl.innerHTML  = '<b>Result:</b> '
+            //   + ' dx:'+joystick.deltaX()
+            //   + ' dy:'+joystick.deltaY()
+            //   + (joystick.right() ? ' right'  : '')s
+            //   + (joystick.up()  ? ' up'   : '')
+            //   + (joystick.left()  ? ' left' : '')
+            //   + (joystick.down()  ? ' down'   : '') 
+            },  1/10 * 1000);
+
         });
         socket.on('update targets', function (data) {
             var targetId;
@@ -45,23 +59,7 @@ $(function($){
             $('#target').append("<img src=" + allplayers[playerId].ballColor + " />");
 
          });
-
-
-        var id = data.game_player_id;
-        $('#controller_id').val(id);
-
-        setInterval(function() {
-            var outputEl  = document.getElementById('result');
-            socket.emit('move', {controller_id: id, deltaX: joystick.deltaX(), deltaY: joystick.deltaY()});
-            //console.log( joystick.deltaX(), joystick.deltaY())
-          // outputEl.innerHTML  = '<b>Result:</b> '
-          //   + ' dx:'+joystick.deltaX()
-          //   + ' dy:'+joystick.deltaY()
-          //   + (joystick.right() ? ' right'  : '')s
-          //   + (joystick.up()  ? ' up'   : '')
-          //   + (joystick.left()  ? ' left' : '')
-          //   + (joystick.down()  ? ' down'   : '') 
-         },  1/10 * 1000);
+       
    
         });
 
