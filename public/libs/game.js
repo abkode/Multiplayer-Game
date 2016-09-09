@@ -17,7 +17,14 @@ var backgroundMusic;
 var shrinkSound;
 
  
-var ballColors = {1 : 'blue',2: 'green',3: 'red',4: 'green',5: 'yellow',6: 'orange',7: 'brown',8: ''};
+var ballColors = {1 : 'assets/tuna-icon.png',
+  2: 'assets/Bee-icon.png',
+  3: 'assets/Fish-icon.png',
+  4: 'assets/seal-icon.png',
+  5: 'assets/Snake-icon.png',
+  6: 'assets/tropical-fish-icon.png',
+  7: 'assets/whale-icon.png'
+};
 var targets = new LinkedList();
 
 function preload() {
@@ -69,6 +76,7 @@ function createNewPlayer(id,name,ballColorString,location)
   var snakeSection = new Array();
   var snakePath = new Array();
   var playerObject = createPlayerObject(name,ballColorString,snakeHead,snakeSection,snakePath);
+  // var playerObject = createPlayerObject(name,ballColorString);
   players[id] = playerObject;
 
 }
@@ -101,6 +109,19 @@ function createCollisionDetection()
   }
 
 }
+
+function getAllPlayers(playerObj) {
+  var allplayers = {};
+  for(var id in playerObj){
+    var playertemp = playerObj[id];
+    var player = {name: playertemp.name, ballColor: playertemp.ballColor};
+    allplayers[id] = player;
+    // console.log(newplayers);
+  }
+return allplayers;
+ 
+}
+
 function create() {
 
   backgroundMusic = this.game.add.audio('backgroundMusic');
@@ -134,7 +155,7 @@ function create() {
 }
 
 var setEventHandlers = function () {
- 
+  //  socket.emit('player created', onNewPlayerfunction); 
    socket.on('new player', onNewPlayerfunction);
 
 }
@@ -144,6 +165,10 @@ var onNewPlayerfunction = function(data) {
   console.log("new player socket called many times!!!!!!!!");
   createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
   targets.insertNodeAtTail(data.game_player_id);
+  
+  var trg = targets.flattenTargets(); 
+  var allplayerobj = getAllPlayers(players);
+  socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});
 
 
  if(targets._length > 2) {
@@ -156,7 +181,7 @@ var onNewPlayerfunction = function(data) {
     }
   }
 
-  num += 50;
+  // num += 50;
   icon_index += 1;
 
 }
@@ -261,10 +286,26 @@ function collisionCallback(snakeHead1, snakeHead2)
     if(game_player_one_node.next.data == game_player_id_two)
     {
       targets.deleteNode(game_player_id_two);
-      appendSnakeSection(game_player_id_one, game_player_id_two)
+      appendSnakeSection(game_player_id_one, game_player_id_two);
+
+        // var trg = targets.flattenTargets();  
+        // socket.emit('targets', trg);
+
+        var trg = targets.flattenTargets(); 
+        var allplayerobj = getAllPlayers(players);
+        socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});
+
+
     }else if(game_player_two_node.next.data == game_player_id_one) {
       targets.deleteNode(game_player_id_one);
       appendSnakeSection(game_player_id_two, game_player_id_one)
+        
+        // var trg = targets.flattenTargets();  
+        // socket.emit('targets', trg);
+        var trg = targets.flattenTargets(); 
+        var allplayerobj = getAllPlayers(players);
+        socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});
+        
     } 
   }
 
