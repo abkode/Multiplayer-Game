@@ -21,6 +21,9 @@ var ballColors = {1 : 'blue',2: 'green',3: 'red',4: 'green',5: 'yellow',6: 'oran
 var targets = new LinkedList();
 
 function preload() {
+
+
+
   // game.load.image(ballColors[1],'assets/orb-blue.png');
   // game.load.image(ballColors[2],'assets/orb-green.png');
   // game.load.image(ballColors[3],'assets/orb-red.png');
@@ -103,6 +106,7 @@ function createCollisionDetection()
 }
 function create() {
 
+
   backgroundMusic = this.game.add.audio('backgroundMusic');
   shrinkSound = this.game.add.audio('shrink');
   hurryMusic = this.game.add.audio('hurry');
@@ -115,6 +119,8 @@ function create() {
   background = game.add.tileSprite(0, 0, 1920, 1200, "background");
 
   socket = io.connect();
+
+  
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
