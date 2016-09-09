@@ -30,6 +30,12 @@ io.sockets.on('connection', function (socket) {
     
     var addedUser = false;
     
+    socket.on('targets', function (data) {
+        
+        socket.broadcast.emit('update targets', data);
+        // socket.broadcast.emit('update targets',  trg );
+    });
+
     socket.on('game_start', function () {
         socket.emit('newGameCreated', {gameId: game_id, SocketId: socket.id});
         socket.join(game_id.toString());

@@ -11,6 +11,7 @@ $(function($){
         socket.on('login', function (data) { 
             $('#user_form').remove();
             $('#controller').show();
+
             var joystick = new VirtualJoystick({
                 // container: document.getElementById('controller'),
                 mouseSupport: true,
@@ -20,6 +21,31 @@ $(function($){
                 // limitStickTravel: true,
                 // stickRadius: 100
             });
+
+            var id = data.game_player_id;
+            $('#controller_id').val(id);
+        });
+        socket.on('update targets', function (data) {
+            var targetId;
+            var allplayers = data.allplayerobj;
+            var targetObject = data.trg;
+            var playerId = $('#controller_id').val();
+            
+            for (var key in targetObject) {
+                if (targetObject.hasOwnProperty(key)) {
+                    if (key == playerId) {
+                        targetId = targetObject[key];
+                    }
+                    
+                }
+            }
+            
+            $('#target').html("<img src=" + allplayers[targetId].ballColor + " />");
+            $('#target').append("<h1>You are:</h1>");
+            $('#target').append("<img src=" + allplayers[playerId].ballColor + " />");
+
+         });
+
 
         var id = data.game_player_id;
         $('#controller_id').val(id);
@@ -68,4 +94,4 @@ $(function($){
      //  });
     
 
-});
+// });
