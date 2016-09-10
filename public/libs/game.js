@@ -19,11 +19,11 @@ var shrinkSound;
  
 var ballColors = {1 : 'assets/pokomon/azumarill.png',
   2: 'assets/pokomon/charizard.png',
-  3: 'assets/pokomon/charizard.png',
-  4: 'assets/seal-icon.png',
-  5: 'assets/Snake-icon.png',
-  6: 'assets/tropical-fish-icon.png',
-  7: 'assets/whale-icon.png'
+  3: 'assets/pokomon/pikachu.png',
+  4: 'assets/pokomon/bulbasaur.png',
+  5: 'assets/pokomon/camerupt.png',
+  6: 'assets/pokomon/chansey.png',
+  7: 'assets/pokomon/bulbasaur.png'
 };
 var targets = new LinkedList();
 
@@ -48,9 +48,9 @@ function preload() {
   game.load.image(ballColors[1],'assets/pokomon/azumarill.png');
   game.load.image(ballColors[2],'assets/pokomon/charizard.png');
   game.load.image(ballColors[3],'assets/pokomon/pikachu.png');
-  game.load.image(ballColors[4],'assets/seal-icon.png');
-  game.load.image(ballColors[5],'assets/Snake-icon.png');
-  game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
+  game.load.image(ballColors[4],'assets/pokomon/bulbasaur.png');
+  game.load.image(ballColors[5],'assets/pokomon/camerupt.png');
+  game.load.image(ballColors[6],'assets/pokomon/chansey.png');
   game.load.image(ballColors[7],'assets/whale-icon.png');
 
   game.load.audio('backgroundMusic', 'assets/supermario.mp3');
