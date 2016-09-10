@@ -134,7 +134,6 @@ return allplayers;
 
 function create() {
 
-
   backgroundMusic = this.game.add.audio('backgroundMusic');
   shrinkSound = this.game.add.audio('shrink');
   hurryMusic = this.game.add.audio('hurry');
@@ -148,14 +147,11 @@ function create() {
 
   socket = io.connect();
 
-  
-
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
   game.world.setBounds(0, 0,
     window.screen.availWidth * window.devicePixelRatio, 
     window.screen.availHeight * window.devicePixelRatio);
-
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -185,8 +181,10 @@ var onMove = function (movement_data) {
 
 var onNewPlayerfunction = function(data) {
 
-  console.log("new player socket called many times!!!!!!!!");
-  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(300,300));
+  console.log("new player socket called");
+
+  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(game.world.randomX, game.world.randomY));
+
   targets.insertNodeAtTail(data.game_player_id);
   
   var trg = targets.flattenTargets(); 
