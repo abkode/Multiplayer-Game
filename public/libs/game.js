@@ -93,7 +93,6 @@ function generateSnakeHeadForPlayer(location,ballColorString, name)
 
   snakeHead.addChild(label_name);
 
-
   snakeHead.anchor.setTo(0.5, 0.5);
   game.physics.enable(snakeHead, Phaser.Physics.ARCADE);
   snakeHead.body.collideWorldBounds = true;
@@ -261,18 +260,19 @@ function getPlayerKeyFromSnakeHead(snakeHead)
 }
 function appendSnakeSection(sectionKey, sectionToAppendKey)
 {
-    //Ugly code need to clean up
+  //Ugly code need to clean up
   var snakePathToAppend = [];
   var snakePathToAppend2 = [];
   var sectionObj = players[sectionKey];
   var sectionToAppendObj = players[sectionToAppendKey];
 
   shrinkSound.play();
-
   //-----duplicate sectionTobeAppended-----
   //add the snake head
   var copyOfSnakeHead = game.add.sprite(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeHead.key);
-  copyOfSnakeHead.anchor.setTo(0.5,0.5);
+
+  copyOfSnakeHead.scale.setTo(0.3, 0.3);
+  copyOfSnakeHead.anchor.setTo(0.2,0.2);
  
   sectionObj.snakeSection.push(copyOfSnakeHead);
   for(var i = 0; i <= (snakeSpacer*(1+sectionToAppendObj.snakeSection.length)); i++)
