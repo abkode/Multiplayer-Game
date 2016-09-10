@@ -17,9 +17,9 @@ var backgroundMusic;
 var shrinkSound;
 
  
-var ballColors = {1 : 'assets/tuna-icon.png',
-  2: 'assets/Bee-icon.png',
-  3: 'assets/Fish-icon.png',
+var ballColors = {1 : 'assets/pokomon/azumarill.png',
+  2: 'assets/pokomon/charizard.png',
+  3: 'assets/pokomon/charizard.png',
   4: 'assets/seal-icon.png',
   5: 'assets/Snake-icon.png',
   6: 'assets/tropical-fish-icon.png',
@@ -45,9 +45,9 @@ function preload() {
   // game.load.image(ballColors[12],'assets/orb-green.png');
   // game.load.image(ballColors[13],'assets/orb-red.png');
 
-  game.load.image(ballColors[1],'assets/tuna-icon.png');
-  game.load.image(ballColors[2],'assets/Bee-icon.png');
-  game.load.image(ballColors[3],'assets/Fish-icon.png');
+  game.load.image(ballColors[1],'assets/pokomon/azumarill.png');
+  game.load.image(ballColors[2],'assets/pokomon/charizard.png');
+  game.load.image(ballColors[3],'assets/pokomon/pikachu.png');
   game.load.image(ballColors[4],'assets/seal-icon.png');
   game.load.image(ballColors[5],'assets/Snake-icon.png');
   game.load.image(ballColors[6],'assets/tropical-fish-icon.png');
@@ -176,7 +176,7 @@ var onMove = function (movement_data) {
   console.log('controller x from game:  ' + movement_data.deltaX);
   console.log('controller y from game:  ' + movement_data.deltaY);
 
-  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX*2,movement_data.deltaY*2);
+  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX*4,movement_data.deltaY*4);
 }   
 
 var onNewPlayerfunction = function(data) {
