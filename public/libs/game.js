@@ -328,10 +328,10 @@ function appendSnakeSection(sectionKey, sectionToAppendKey)
 
   for(var x = 0; x < sectionToAppendObj.snakeSection.length; x++)
   {
-
     var section = game.add.sprite(sectionToAppendObj.snakeHead.x, sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeSection[x].key);
     snakePathToAppend2[x] = new Phaser.Point(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y);
-    section.anchor.setTo(0.5,0.5);
+    section.scale.setTo(0.3, 0.3);
+    section.anchor.setTo(0.2,0.2);
     sectionObj.snakeSection.push(section);
     sectionToAppendObj.snakeSection[x].kill();
   }
