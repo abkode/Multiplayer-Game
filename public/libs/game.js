@@ -133,7 +133,7 @@ function generateSnakeHeadForPlayer(location,ballColorString, name)
 {
   var snakeHead = game.add.sprite(location.x, location.y, ballColorString);
   var playerLabelStyle = { font: "30px Arial", fill: "#ffffff", align: "center" };  
-  var label_name = game.add.text(0, -35, name, playerLabelStyle);
+  var label_name = game.add.text(0, -42, name, playerLabelStyle);
   label_name.anchor.set(0.5);
 
 
@@ -315,7 +315,7 @@ function appendSnakeSection(sectionKey, sectionToAppendKey)
   //add the snake head
   var copyOfSnakeHead = game.add.sprite(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeHead.key);
 
-  copyOfSnakeHead.scale.setTo(0.3, 0.3);
+  copyOfSnakeHead.scale.setTo(0.6, 0.6);
   copyOfSnakeHead.anchor.setTo(0.2,0.2);
  
   sectionObj.snakeSection.push(copyOfSnakeHead);
@@ -330,7 +330,7 @@ function appendSnakeSection(sectionKey, sectionToAppendKey)
   {
     var section = game.add.sprite(sectionToAppendObj.snakeHead.x, sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeSection[x].key);
     snakePathToAppend2[x] = new Phaser.Point(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y);
-    section.scale.setTo(0.3, 0.3);
+    section.scale.setTo(0.6, 0.6);
     section.anchor.setTo(0.2,0.2);
     sectionObj.snakeSection.push(section);
     sectionToAppendObj.snakeSection[x].kill();
