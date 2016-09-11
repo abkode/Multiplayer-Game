@@ -23,7 +23,30 @@ var ballColors = {1 : 'assets/pokomon/azumarill.png',
   4: 'assets/pokomon/bulbasaur.png',
   5: 'assets/pokomon/camerupt.png',
   6: 'assets/pokomon/chansey.png',
-  7: 'assets/pokomon/bulbasaur.png'
+  7: 'assets/pokomon/clefable.png',
+  8: 'assets/pokomon/croconaw.png',
+  9: 'assets/pokomon/dedenne.png',
+  10: 'assets/pokomon/deoxys.png',
+  11: 'assets/pokomon/gengar.png',
+  12: 'assets/pokomon/golduck.png',
+  13: 'assets/pokomon/golem.png',
+  14: 'assets/pokomon/grotle.png',
+  15: 'assets/pokomon/growlithe.png',
+  16: 'assets/pokomon/ivysaur.png',
+  17: 'assets/pokomon/purugly.png',
+  18: 'assets/pokomon/quiladin.png',
+  19: 'assets/pokomon/shiftry.png',
+  20: 'assets/pokomon/slurpuff.png',
+  21: 'assets/pokomon/snorlax.png',
+  22: 'assets/pokomon/squirtle.png',
+  23: 'assets/pokomon/teddiursa.png',
+  24: 'assets/pokomon/wartortle.png',
+  25: 'assets/pokomon/whirlipede.png',
+  26: 'assets/pokomon/zhubat.png',
+  27: 'assets/pokomon/starmie.png',
+  28: 'assets/pokomon/mewtwo.png',
+  29: 'assets/pokomon/gyarados.png',
+  30: 'assets/pokomon/zapdos.png'
 };
 var targets = new LinkedList();
 
@@ -51,7 +74,30 @@ function preload() {
   game.load.image(ballColors[4],'assets/pokomon/bulbasaur.png');
   game.load.image(ballColors[5],'assets/pokomon/camerupt.png');
   game.load.image(ballColors[6],'assets/pokomon/chansey.png');
-  game.load.image(ballColors[7],'assets/whale-icon.png');
+  game.load.image(ballColors[7],'assets/pokomon/clefable.png');
+  game.load.image(ballColors[8],'assets/pokomon/croconaw.png');
+  game.load.image(ballColors[9],'assets/pokomon/dedenne.png');
+  game.load.image(ballColors[10],'assets/pokomon/deoxys.png');
+  game.load.image(ballColors[11],'assets/pokomon/gengar.png');
+  game.load.image(ballColors[12],'assets/pokomon/golduck.png');
+  game.load.image(ballColors[13],'assets/pokomon/golem.png');
+  game.load.image(ballColors[14],'assets/pokomon/grotle.png');
+  game.load.image(ballColors[15],'assets/pokomon/growlithe.png');
+  game.load.image(ballColors[16],'assets/pokomon/ivysaur.png');
+  game.load.image(ballColors[17],'assets/pokomon/purugly.png');
+  game.load.image(ballColors[18],'assets/pokomon/quiladin.png');
+  game.load.image(ballColors[19],'assets/pokomon/shiftry.png');
+  game.load.image(ballColors[20],'assets/pokomon/slurpuff.png');
+  game.load.image(ballColors[21],'assets/pokomon/snorlax.png');
+  game.load.image(ballColors[22],'assets/pokomon/squirtle.png');
+  game.load.image(ballColors[23],'assets/pokomon/teddiursa.png');
+  game.load.image(ballColors[24],'assets/pokomon/wartortle.png');
+  game.load.image(ballColors[25],'assets/pokomon/whirlipede.png');
+  game.load.image(ballColors[26],'assets/pokomon/zhubat.png');
+  game.load.image(ballColors[27],'assets/pokomon/starmie.png');
+  game.load.image(ballColors[28],'assets/pokomon/mewtwo.png');
+  game.load.image(ballColors[29],'assets/pokomon/gyarados.png');
+  game.load.image(ballColors[30],'assets/pokomon/zapdos.png');
 
   game.load.audio('backgroundMusic', 'assets/supermario.mp3');
   game.load.audio('shrink', 'assets/shrink.wav');
