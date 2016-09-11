@@ -14,7 +14,8 @@ var icon_index = 1;
 var snakeSpacer = 10;
 var socket;
 var backgroundMusic;
-var shrinkSound;
+var battleMusic;
+var captureSound;
 
  
 var ballColors = {1 : 'assets/pokomon/azumarill.png',
@@ -51,8 +52,6 @@ var ballColors = {1 : 'assets/pokomon/azumarill.png',
 var targets = new LinkedList();
 
 function preload() {
-
-
 
   // game.load.image(ballColors[1],'assets/orb-blue.png');
   // game.load.image(ballColors[2],'assets/orb-green.png');
@@ -99,21 +98,19 @@ function preload() {
   game.load.image(ballColors[29],'assets/pokomon/gyarados.png');
   game.load.image(ballColors[30],'assets/pokomon/zapdos.png');
 
-  game.load.audio('backgroundMusic', 'assets/supermario.mp3');
-  game.load.audio('shrink', 'assets/shrink.wav');
-  game.load.audio('hurry', 'assets/hurry.mp3');
+  game.load.audio('backgroundMusic', 'assets/music/PokemonMainTheme.mp3');
+  game.load.audio('captureSoundEffect', 'assets/music/PokemonCapture.mp3');
+  game.load.audio('battleMusic', 'assets/music/PokemonBattle.mp3');
 
-  game.load.image("background", "assets/mario.jpg");
+  game.load.image('background', 'assets/mario.jpg');
  
 }
 function getAlivePlayers() 
 {
-
   var alivePlayers = Object.keys(players).map(function(playerKey) {
 
     if(players[playerKey].snakeHead.alive === true);
     return(playerKey);
-
   });
 
   return(alivePlayers);
@@ -135,7 +132,6 @@ function generateSnakeHeadForPlayer(location,ballColorString, name)
   var playerLabelStyle = { font: "30px Arial", fill: "#ffffff", align: "center" };  
   var label_name = game.add.text(0, -42, name, playerLabelStyle);
   label_name.anchor.set(0.5);
-
 
   snakeHead.addChild(label_name);
 
@@ -181,14 +177,17 @@ return allplayers;
 function create() {
 
   backgroundMusic = this.game.add.audio('backgroundMusic');
-  shrinkSound = this.game.add.audio('shrink');
-  hurryMusic = this.game.add.audio('hurry');
+  captureSound = this.game.add.audio('captureSoundEffect');
+  battleMusic = this.game.add.audio('battleMusic');
 
   backgroundMusic.volume = 0.3;
-  backgroundMusic.loop = true;
-  //backgroundMusic.play();
+  captureSound.volume = 2;
 
-  //game.stage.backgroundColor = "#2B2B2B";
+  backgroundMusic.loop = true;
+  battleMusic.loop = true;
+
+  backgroundMusic.play();
+
   background = game.add.tileSprite(0, 0, 1920, 1200, "background");
 
   socket = io.connect();
@@ -240,9 +239,8 @@ var onNewPlayerfunction = function(data) {
  if(targets._length > 2) {
 
    if (backgroundMusic.isPlaying) {
-      backgroundMusic.fadeOut();
-      hurryMusic.loop = true;
-      hurryMusic.fadeIn();
+      backgroundMusic.stop();
+      battleMusic.play();
     }
   }
 
@@ -285,8 +283,6 @@ function update() {
   //        //players[data.player_id].snakeHead.body.velocity.setTo(100,0);//300000;
   // });    
 
-
-
   createCollisionDetection();
 
 }
@@ -310,7 +306,7 @@ function appendSnakeSection(sectionKey, sectionToAppendKey)
   var sectionObj = players[sectionKey];
   var sectionToAppendObj = players[sectionToAppendKey];
 
-  shrinkSound.play();
+  captureSound.play();
   //-----duplicate sectionTobeAppended-----
   //add the snake head
   var copyOfSnakeHead = game.add.sprite(sectionToAppendObj.snakeHead.x,sectionToAppendObj.snakeHead.y,sectionToAppendObj.snakeHead.key);
@@ -354,10 +350,8 @@ function collisionCallback(snakeHead1, snakeHead2)
     {
       targets.deleteNode(game_player_id_two);
       appendSnakeSection(game_player_id_one, game_player_id_two);
-
         // var trg = targets.flattenTargets();  
         // socket.emit('targets', trg);
-
         var trg = targets.flattenTargets(); 
         var allplayerobj = getAllPlayers(players);
         socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});
@@ -371,9 +365,18 @@ function collisionCallback(snakeHead1, snakeHead2)
         // socket.emit('targets', trg);
         var trg = targets.flattenTargets(); 
         var allplayerobj = getAllPlayers(players);
-        socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});
-        
-    } 
+        socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});    
+    }
+
+  } 
+
+  if(targets._length < 3) {
+
+    if (battleMusic.isPlaying) {
+      battleMusic.stop();
+      backgroundMusic.play();
+
+    }
   }
 
 }
