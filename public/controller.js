@@ -1,5 +1,5 @@
 $(function($){
-    
+
     var socket = io.connect();
     $('#controller').hide();
 
@@ -40,19 +40,24 @@ $(function($){
 
         });
         socket.on('update targets', function (data) {
+
             var targetId;
             var allplayers = data.allplayerobj;
             var targetObject = data.trg;
             var playerId = $('#controller_id').val();
-            debugger;
+            // debugger;
             for (var key in targetObject) {
                 if (targetObject.hasOwnProperty(key)) {
                     if (key == playerId) {
                         targetId = targetObject[key];
-                    }
+                        // // vibration API supported
+                        if (window.navigator && window.navigator.vibrate) { 
+                            navigator.vibrate(1000) 
+                        };
+                    ;}
                     
-                }
-            }
+                };
+            };
             
             if (targetId != undefined) {
                 $('#target').html("Your Target <br>");    
@@ -63,11 +68,10 @@ $(function($){
             } else {
                 $('canvas').remove();
                 $('#target').empty();
-                $('#target').html("<h1> Oh you death ! </h1>");
+                $('#target').html("<h1> Oh you died ! </h1>");
                 $('#target').append("<input type='button' id='btn_restart' value='Play it again'>");
                 socket.emit('death player', {player_id: playerId});
             };
-            
          });
 
         });
