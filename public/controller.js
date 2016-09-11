@@ -6,7 +6,7 @@ $(function($){
     $('#btn_start').on('click', function(){
         var player_name = $('#input_player_name').val();
         var gameID_user = $('#input_game_id').val();
-        socket.emit('add user', player_name);
+        socket.emit('add user', {player_name: player_name, game_id: gameID_user});
         
         socket.on('login', function (data) { 
             $('#user_form').remove();
@@ -44,7 +44,7 @@ $(function($){
             var allplayers = data.allplayerobj;
             var targetObject = data.trg;
             var playerId = $('#controller_id').val();
-            
+            debugger;
             for (var key in targetObject) {
                 if (targetObject.hasOwnProperty(key)) {
                     if (key == playerId) {
@@ -54,13 +54,35 @@ $(function($){
                 }
             }
             
-            $('#target').html("<img src=" + allplayers[targetId].ballColor + " />");
-            $('#target').append("<h1>You are:</h1>");
-            $('#target').append("<img src=" + allplayers[playerId].ballColor + " />");
-
+            if (targetId != undefined) {
+                $('#target').html("Your Target <br>");    
+                $('#target').append("<img src=" + allplayers[targetId].ballColor + " />");
+                $('#target').append("<h1>You are:</h1>");
+                $('#target').append("<img src=" + allplayers[playerId].ballColor + " />");
+                // $('#target').append("<br><input type='button' id='btn_exit' value='exit'>");
+            } else {
+                $('canvas').remove();
+                $('#target').empty();
+                $('#target').html("<h1> Oh you death ! </h1>");
+                $('#target').append("<input type='button' id='btn_restart' value='Play it again'>");
+                socket.emit('death player', {player_id: playerId});
+            };
+            
          });
-       
-   
+
+        });
+
+        $(document).on('click touchstart', '#btn_restart', function () {
+            location.reload();
+        });
+
+        // $(document).on('click touchstart', '#btn_exit', function () {
+        //     // location.reload();
+        //     // socket.emit('death player', {player_id: playerId});
+        // });
+
+        socket.on('Wrong Game ID', function (data) {
+            $('#error_msg').html("<span style='color:red'> Invalid game ID, Try again! </span>");
         });
 
     });

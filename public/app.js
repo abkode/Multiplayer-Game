@@ -28,15 +28,17 @@ $(function($){
         $('#url_info').hide();
         $('canvas').css("display","block");
         $('#game_info').show();
-        $('#num_player').html("<p>" + data.numUsers + " players</p>");
+        // $('#num_player').html("<p>" + data.numUsers + " players</p>");
         $('#player_list').empty();
-
+        var playerCount = 0;
         for (var key in data.game_players) {
             if (data.game_players.hasOwnProperty(key)) {
                 $('#player_list').append("<p>" + key + " -> " + data.game_players[key] + "</p>");
+                ++playerCount;
+                
             }
         }
-
+        $('#num_player').html("<p>" + playerCount + " players</p>");
         // for (var i = 0; i < data.game_players.length; i++) {
         //     $('#player_list').append("<p>" + data.game_players[i] + "</p>");
         // }
