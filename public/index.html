@@ -12,32 +12,34 @@
 </head>
 <body>
 <div id="overlay" style="opacity: 0.5;"></div>
-
-<div id="row">
-    <div class="col-md-12 text-center">
-        <h1>Pokemon Air Play</h1>
-        <br>
-        <button id="btn_startGame" class="btn btn-primary">Start Game</button>
-    </div>
-</div>
-<div id="row">
-<div class="col-md-12 text-center">
-    <div id="url_info">
-        <h1>Open below URL on your mobile device:</h1>
-        <div id="gameURL"></div>
-        <br />
-        <div><h2>then enter the following Game ID and join the game</h2></div><br>
-        <div id="gameID"></div>
-    </div>
-
-    <div id="game">
-        <div id="game_info">
-            <div id="game_id"></div>
-            <div id="num_player"></div>
-            <div id="player_list"></div>
+<div id="page_header">
+    <div id="row">
+        <div class="col-md-12 text-center">
+            <h1>Multiplayer Air Game</h1>
+            <br>
+            <button id="btn_startGame" class="btn btn-primary">Start Game</button>
         </div>
     </div>
 </div>
+<div id="page_info">
+<div id="row">
+    <div class="col-md-12 text-center">
+        <div id="url_info">
+            <h1>Open below URL on your mobile device:</h1>
+            <div id="gameURL"></div>
+            <br />
+            <div><h2>then enter the following Game ID and join the game</h2></div><br>
+            <div id="gameID"></div>
+        </div>
+    </div>
+    </div>
+</div>
+<div id="game">
+    <div id="game_info">
+        <div id="game_id"></div>
+        <div id="num_player"></div>
+        <div id="player_list"></div>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

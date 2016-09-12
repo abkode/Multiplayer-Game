@@ -89,5 +89,7 @@ $(function($){
             $('#error_msg').html("<span style='color:red'> Invalid game ID, Try again! </span>");
         });
 
-    });
+
+
+});
 

@@ -25,6 +25,10 @@ $(function($){
     });
 
     socket.on('user joined', function (data) {
+        $('body').css( "padding-top", "0px" );
+        $('#overlay').remove();
+        $('#page_header').remove();
+        $('#page_info').remove();
         $('#url_info').hide();
         $('canvas').css("display","block");
         $('#game_info').show();
