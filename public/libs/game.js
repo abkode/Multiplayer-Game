@@ -219,7 +219,14 @@ var setEventHandlers = function () {
 var onDisconnectedClient = function (data) {
   console.log(data.client_id); 
   targets.deleteNode(data.client_id);
-  players[data.client_id].snakeHead.kill();
+
+  var snakeBodySprites = players[data.client_id].snakeSection;
+
+  snakeBodySprites.forEach(body => {  
+    body.kill();
+  });
+  var snakeHead = players[data.client_id].snakeHead.kill();
+
   var trg = targets.flattenTargets(); 
   var allplayerobj = getAllPlayers(players);
   socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});  
