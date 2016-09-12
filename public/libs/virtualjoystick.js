@@ -2,7 +2,7 @@ var VirtualJoystick = function(opts)
 {
   opts      = opts      || {};
   this._container   = opts.container  || document.body;
-  this._strokeStyle = opts.strokeStyle  || 'cyan';
+  this._strokeStyle = opts.strokeStyle  || 'white';
   this._stickEl   = opts.stickElement || this._buildJoystickStick();
   this._baseEl    = opts.baseElement  || this._buildJoystickBase();
   this._mouseSupport  = opts.mouseSupport !== undefined ? opts.mouseSupport : false;
@@ -320,6 +320,7 @@ VirtualJoystick.prototype._buildJoystickBase  = function()
   var canvas  = document.createElement( 'canvas' );
   canvas.width  = 126;
   canvas.height = 126;
+  canvas.style.border = "none";
   
   var ctx   = canvas.getContext('2d');
   ctx.beginPath(); 
@@ -342,16 +343,53 @@ VirtualJoystick.prototype._buildJoystickBase  = function()
  */
 VirtualJoystick.prototype._buildJoystickStick = function()
 {
-  var canvas  = document.createElement( 'canvas' );
-  canvas.width  = 86;
-  canvas.height = 86;
-  var ctx   = canvas.getContext('2d');
-  ctx.beginPath(); 
-  ctx.strokeStyle = this._strokeStyle; 
-  ctx.lineWidth = 6; 
-  ctx.arc( canvas.width/2, canvas.width/2, 40, 0, Math.PI*2, true); 
-  ctx.stroke();
-  return canvas;
+ var canvas  = document.createElement( 'canvas' );
+ canvas.style.border = "none";
+
+var red = '#FF1A1D ';
+
+//var canvas = document.getElementById('canvas');
+canvas.width = 250;
+canvas.height = 250;
+
+var context = canvas.getContext('2d');
+context.fillStyle = '#fff';
+context.lineWidth = 15;
+/*External circle*/
+context.beginPath();
+context.arc(100, 100, 50, 0, 2*Math.PI);
+context.stroke();
+context.fill();
+
+/*half red*/
+context.beginPath();
+context.fillStyle = red;
+context.arc(100, 100, 50, 1*Math.PI, 0);
+context.fill();
+
+/*line at middle
+I drew this line trying different values
+So I don't understand how it's working :disappointed:
+*/
+context.beginPath();
+context.moveTo(50, 100);
+context.lineTo(150, 100);
+context.stroke();
+
+/*Circle that holds the button*/
+context.beginPath();
+context.fillStyle = '#fff';
+context.arc(100, 100, 12.5, 0, 2*Math.PI);
+context.stroke();
+context.fill();
+
+/*Black button in the middle of pokeball*/
+context.beginPath();
+context.fillStyle = '#000';
+context.arc(100, 100, 6, 0, 2*Math.PI);
+context.fill();
+
+ return canvas;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
