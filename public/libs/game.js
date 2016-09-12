@@ -16,6 +16,7 @@ var socket;
 var backgroundMusic;
 var battleMusic;
 var captureSound;
+var SPAWN_PLAYER_SEPERATION = 200;
 
  
 var ballColors = {1 : 'assets/pokomon/azumarill.png',
@@ -214,24 +215,73 @@ var setEventHandlers = function () {
    socket.on('move', onMove);
 
 }
-
 var onMove = function (movement_data) {
   //debugger;
-  console.log('controller id from game:  ' + movement_data.controller_id);
-  console.log('controller x from game:  ' + movement_data.deltaX);
-  console.log('controller y from game:  ' + movement_data.deltaY);
-
+  // console.log('controller id from game:  ' + movement_data.controller_id);
+  // console.log('controller x from game:  ' + movement_data.deltaX);
+  // console.log('controller y from game:  ' + movement_data.deltaY);
   players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX*4,movement_data.deltaY*4);
-}   
+}  
+function generateRandomPointGivenSeperation(x,y,seperation)
+{
 
+  do {
+
+    genRandX = game.world.randomX;
+    genRandY = game.world.randomY;
+
+  } while(((Math.abs(genRandX - x) < seperation) && (Math.abs(genRandX - x) < seperation)))
+
+  return new Phaser.Point(genRandX, genRandY);
+
+}
+function generatePlayerSpawnPoint()
+{
+
+  if(targets._length == 0) {
+
+    return new Phaser.Point(game.world.randomX, game.world.randomY);
+
+  }else if(targets._length == 1) {
+    // console.log(players[targets.head.data].snakeHead.x);
+    // console.log(players[targets.head.data].snakeHead.y);
+    return(generateRandomPointGivenSeperation(players[targets.head.data].snakeHead.x,players[targets.head.data].snakeHead.y,SPAWN_PLAYER_SEPERATION));
+
+  } else {
+
+    var phaserPoint;
+
+    do {
+
+      phaserPoint = generateRandomPointGivenSeperation(players[targets.head.data].snakeHead.x,players[targets.head.data].snakeHead.y,SPAWN_PLAYER_SEPERATION);
+
+    } while( (Math.abs((players[targets.tail.data].snakeHead.x - phaserPoint.x)) < SPAWN_PLAYER_SEPERATION) && (Math.abs((players[targets.tail.data].snakeHead.y - phaserPoint.y)) < SPAWN_PLAYER_SEPERATION));
+
+    // console.log(players[targets.head.data].snakeHead.x);
+    // console.log(players[targets.head.data].snakeHead.y);
+
+    // console.log(players[targets.head.data].snakeHead.x);
+    // console.log(players[targets.head.data].snakeHead.y);
+    return(phaserPoint);
+
+  } 
+  
+    
+}
 var onNewPlayerfunction = function(data) {
 
-  console.log("new player socket called");
 
-  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(game.world.randomX, game.world.randomY));
+  console.log("new player socket called");
+  var spawnPoint = generatePlayerSpawnPoint();
+
+  console.log(spawnPoint.x,spawnPoint.y);
+
+  //createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],new Phaser.Point(game.world.randomX, game.world.randomY));
+
+  createNewPlayer(data.game_player_id, data.game_player_name, ballColors[icon_index],spawnPoint);
 
   targets.insertNodeAtTail(data.game_player_id);
-  
+ 
   var trg = targets.flattenTargets(); 
   var allplayerobj = getAllPlayers(players);
   socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});
@@ -243,10 +293,8 @@ var onNewPlayerfunction = function(data) {
       battleMusic.play();
     }
   }
-
   // num += 50;
   icon_index += 1;
-
 }
 
 function update() {
@@ -255,7 +303,6 @@ function update() {
     //players[key].snakeHead.body.velocity.setTo(0, 0);
     //players[key].snakeHead.body.angularVelocity = 0;
     //players[key].snakeHead.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(players[key].snakeHead.angle, 300));
- 
     //Part of the slither animation
     if (players[key].snakeSection.length > 0 && players[key].snakeHead.alive === true) {
       
