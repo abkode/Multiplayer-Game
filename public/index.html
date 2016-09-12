@@ -11,14 +11,19 @@
     <script src="libs/fastclick.js"></script>
 </head>
 <body>
+<div id="overlay" style="opacity: 0.5;"></div>
 
-<div id="container text-center">
-    <div>
+<div id="row">
+    <div class="col-md-12 text-center">
+        <h1>Pokemon Air Play</h1>
+        <br>
         <button id="btn_startGame" class="btn btn-primary">Start Game</button>
     </div>
-
+</div>
+<div id="row">
+<div class="col-md-12 text-center">
     <div id="url_info">
-        <h1>Please open below URL on your mobile device:</h1>
+        <h1>Open below URL on your mobile device:</h1>
         <div id="gameURL"></div>
         <br />
         <div>then enter the following Game ID and join the game</div><br>
@@ -32,6 +37,7 @@
             <div id="player_list"></div>
         </div>
     </div>
+</div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
