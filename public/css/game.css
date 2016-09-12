@@ -27,6 +27,13 @@
   color:white;
 }
 
+#gameURL {
+  font-size: 70px;
+}
+#gameID > h1{
+  font-size: 70px;
+}
+
 #game {
   position: relative;
 }

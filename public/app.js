@@ -14,8 +14,8 @@ $(function($){
     });
 
     socket.on('newGameCreated', function (data) {
-        $('#gameURL').text("http://localhost:3000/game");
-        $('#gameID').html("<h2>" + data.gameId + "</h2>")
+        $('#gameURL').text("https://mighty-mesa-70530.herokuapp.com/game");
+        $('#gameID').html("<h1>" + data.gameId + "</h1>")
         // var key = data.gameId;
         
         // var QR = '<a href="http://192.168.1.70:3000/game/' + key + '"><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://192.168.1.70:3000/game/' + key + '&choe=UTF-8" alt=""/></a>';
