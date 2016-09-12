@@ -213,8 +213,19 @@ var setEventHandlers = function () {
   //  socket.emit('player created', onNewPlayerfunction); 
    socket.on('new player', onNewPlayerfunction);
    socket.on('move', onMove);
+   socket.on('disconnected client',onDisconnectedClient);
 
 }
+var onDisconnectedClient = function (data) {
+  console.log(data.client_id); 
+  targets.deleteNode(data.client_id);
+  players[data.client_id].snakeHead.kill();
+  var trg = targets.flattenTargets(); 
+  var allplayerobj = getAllPlayers(players);
+  socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});  
+}
+
+
 var onMove = function (movement_data) {
   //debugger;
   // console.log('controller id from game:  ' + movement_data.controller_id);

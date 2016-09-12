@@ -26,6 +26,7 @@ app.get('/game', function (req, res) {
 // Create a unique Socket.IO Room
 var game_id = ( Math.random() * 100000 ) | 0;
 
+
 io.sockets.on('connection', function (socket) {
     
     var addedUser = false;
@@ -45,7 +46,8 @@ io.sockets.on('connection', function (socket) {
         if (data.game_id == game_id) {
             console.log("add user called!!!!!!!!!!!!!!!!!!!!");
             if (addedUser) return;
-            var player_id = ( Math.random() * 1000 ) | 0;
+            // var player_id = ( Math.random() * 1000 ) | 0;
+            var player_id = socket.id;
             socket.username = data.player_name;
             game_players[player_id] = data.player_name;
             numUsers = numUsers + 1;
@@ -93,11 +95,28 @@ io.sockets.on('connection', function (socket) {
             socket.on('right move', function (controller_id) {
                 socket.broadcast.emit('right move', {player_id: controller_id});
             }); 
+               socket.on('disconnect', function () {
+                    console.log('disconnected !!!!!!!!');
+
+                    delete game_players[socket.id];
+                    numUsers = numUsers - 1;
+                    socket.broadcast.emit('user joined', {
+                        numUsers: numUsers,
+                        game_players: game_players,
+                        game_id: game_id 
+                    });
+                    var client_id = socket.id;
+                    socket.broadcast.emit('disconnected client', {
+                        client_id: client_id
+                    });
+
+                });
         }else {
              socket.emit('Wrong Game ID');
         };
     });
 
-   
+
 
 });
+
