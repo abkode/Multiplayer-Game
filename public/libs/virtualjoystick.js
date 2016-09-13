@@ -168,8 +168,8 @@ VirtualJoystick.prototype._onDown = function(x, y)
     this._move(this._baseEl.style, (this._baseX - this._baseEl.width /2), (this._baseY - this._baseEl.height/2));
   }
   
-  this._stickX  = x;
-  this._stickY  = y;
+  this._stickX  = x + 25;
+  this._stickY  = y + 25;
   
   if(this._limitStickTravel === true){
     var deltaX  = this.deltaX();
@@ -191,8 +191,8 @@ VirtualJoystick.prototype._onDown = function(x, y)
 VirtualJoystick.prototype._onMove = function(x, y)
 {
   if( this._pressed === true ){
-    this._stickX  = x;
-    this._stickY  = y;
+    this._stickX  = x + 25;
+    this._stickY  = y + 25;
     
     if(this._limitStickTravel === true){
       var deltaX  = this.deltaX();
