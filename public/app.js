@@ -14,11 +14,11 @@ $(function($){
     });
 
     socket.on('newGameCreated', function (data) {
-        $('#gameURL').text("https://mighty-mesa-70530.herokuapp.com/game");
+        $('#gameURL').text("http://multiplair.herokuapp.com//game");
         $('#gameID').html("<h1>" + data.gameId + "</h1>")
         var key = data.gameId;
         
-        var QR = '<a href="https://mighty-mesa-70530.herokuapp.com/game"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://mighty-mesa-70530.herokuapp.com/game&choe=UTF-8" alt=""/></a>';
+        var QR = '<a href="http://multiplair.herokuapp.com/game"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=http://multiplair.herokuapp.com/game&choe=UTF-8" alt=""/></a>';
 
         $('#gameID').append(QR);
         // $('#qr').html(QR);
