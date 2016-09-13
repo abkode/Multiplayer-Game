@@ -14,8 +14,8 @@
 <div id="overlay" style="opacity: 0.5;"></div>
 <div id="page_header">
     <div id="row">
-        <div class="col-md-12 text-center">
-            <h1>Multiplayer Air Game</h1>
+        <div id="title" class="col-md-12 text-center">
+            <h1>MultiplAir</h1>
             <br>
             <button id="btn_startGame" class="btn btn-primary">Start Game</button>
         </div>
@@ -36,9 +36,16 @@
 </div>
 <div id="game">
     <div id="game_info">
-        <div id="game_id"></div>
-        <div id="num_player"></div>
-        <div id="player_list"></div>
+        <div id="row">
+            <div class="col-md-6">
+                <div id="game_id" class="game_id"></div>
+                <div id="num_player"></div>
+                <div id="player_list"></div>
+            </div>
+            <div class="col-md-6">
+                 <div id="qr"></div>
+             </div>
+        </div>   
     </div>
 </div>
 
@@ -51,6 +58,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Tamma" rel="stylesheet">
 
 </body>
 </html>

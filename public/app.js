@@ -16,11 +16,12 @@ $(function($){
     socket.on('newGameCreated', function (data) {
         $('#gameURL').text("https://mighty-mesa-70530.herokuapp.com/game");
         $('#gameID').html("<h1>" + data.gameId + "</h1>")
-        // var key = data.gameId;
+        var key = data.gameId;
         
-        // var QR = '<a href="http://192.168.1.70:3000/game/' + key + '"><img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=http://192.168.1.70:3000/game/' + key + '&choe=UTF-8" alt=""/></a>';
+        var QR = '<a href="https://mighty-mesa-70530.herokuapp.com/game"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://mighty-mesa-70530.herokuapp.com/game&choe=UTF-8" alt=""/></a>';
 
-        // $('#gameID').html(QR);
+        $('#gameID').append(QR);
+        $('#qr').html(QR);
 
     });
 
@@ -37,12 +38,12 @@ $(function($){
         var playerCount = 0;
         for (var key in data.game_players) {
             if (data.game_players.hasOwnProperty(key)) {
-                $('#player_list').append("<p>" + key + " -> " + data.game_players[key] + "</p>");
+                $('#player_list').append("<h3>" + data.game_players[key] + "</h3>");
                 ++playerCount;
                 
             }
         }
-        $('#num_player').html("<p>" + playerCount + " players</p>");
+        $('#num_player').html("<h4>" + playerCount + " Players</h4>");
         // for (var i = 0; i < data.game_players.length; i++) {
         //     $('#player_list').append("<p>" + data.game_players[i] + "</p>");
         // }
