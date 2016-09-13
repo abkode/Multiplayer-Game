@@ -1,8 +1,10 @@
 $(function($){
 
+ 
+
     var socket = io.connect();
     $('#controller').hide();
-
+    
     $('#btn_start').on('click', function(){
         var player_name = $('#input_player_name').val();
         var gameID_user = $('#input_game_id').val();
@@ -60,9 +62,10 @@ $(function($){
             };
             
             if (targetId != undefined) {
-                $('#target').html("Your Target <br>");    
+                $('#target').html("<h1>Target</h1> <br>");
+                 $('#target').append("<img id='img_trg' src='../assets/target.png' />");    
                 $('#target').append("<img src=" + allplayers[targetId].ballColor + " />");
-                $('#target').append("<h1>You are:</h1>");
+                $('#target').append("<br><br><h1>You</h1>");
                 $('#target').append("<img src=" + allplayers[playerId].ballColor + " />");
                 // $('#target').append("<br><input type='button' id='btn_exit' value='exit'>");
             } else {

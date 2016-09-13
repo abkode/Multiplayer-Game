@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 10%;
+    padding-top: 5%;
     background: url(../assets/bg.jpg);
     background-size: cover;
     color: #fff;
@@ -9,6 +9,10 @@
 .col-md-12 > h1 {
   color:white;
   font-size: 78px;
+}
+
+#qr {
+  float: right;
 }
 
 #overlay {
@@ -23,6 +27,11 @@
     -webkit-transition: opacity 1s ease;
 }
 
+#title > h1{
+  font-size: 140px;
+  font-family: 'Baloo Tamma', cursive;
+}
+
 #url_info {
   color:white;
 }
@@ -30,18 +39,33 @@
 #gameURL {
   font-size: 70px;
 }
+
+
 #gameID > h1{
-  font-size: 70px;
+  font-size: 90px;
+  font-family: 'Baloo Tamma', cursive;
+}
+.game_id > h1{
+  font-size: 60px;
+  font-family: 'Baloo Tamma', cursive;
+  opacity: 80%;
 }
 
+#qr > img {
+  opacity: 30%;
+}
+
+#game_info {
+  width:100%;
+}
 #game {
   position: relative;
 }
 #game canvas, #game_info {
   position: absolute;
-    color: white;
-    padding: 30px;
-    margin: 10px;
+  color: white;
+  padding: 30px;
+  margin: 10px;
 }
 canvas {
   border: 1px solid black;
