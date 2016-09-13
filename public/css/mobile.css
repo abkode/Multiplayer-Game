@@ -6,7 +6,7 @@ body {
 
 .ui-page { 
     background-color: #f8b600 !important;
-    background: url(../assets/bg_mobile.jpg);
+    /*background: url(../assets/bg_mobile.jpg);*/
 }
 
 #mobile_container {
@@ -48,4 +48,8 @@ img#img_trg {
     opacity: 0.5;
     transition: opacity 1s ease;
     -webkit-transition: opacity 1s ease;
+}
+
+.icon_c {
+    padding-right: 10px;
 }

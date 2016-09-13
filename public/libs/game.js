@@ -238,7 +238,7 @@ var onMove = function (movement_data) {
   // console.log('controller id from game:  ' + movement_data.controller_id);
   // console.log('controller x from game:  ' + movement_data.deltaX);
   // console.log('controller y from game:  ' + movement_data.deltaY);
-  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX*4,movement_data.deltaY*4);
+  players[movement_data.controller_id].snakeHead.body.velocity.setTo(movement_data.deltaX*5,movement_data.deltaY*5);
 }  
 function generateRandomPointGivenSeperation(x,y,seperation)
 {

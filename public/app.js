@@ -21,7 +21,7 @@ $(function($){
         var QR = '<a href="https://mighty-mesa-70530.herokuapp.com/game"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=https://mighty-mesa-70530.herokuapp.com/game&choe=UTF-8" alt=""/></a>';
 
         $('#gameID').append(QR);
-        $('#qr').html(QR);
+        // $('#qr').html(QR);
 
     });
 

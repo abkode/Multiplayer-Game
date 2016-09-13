@@ -242,6 +242,7 @@ VirtualJoystick.prototype._onMouseMove  = function(event)
 
 VirtualJoystick.prototype._onTouchStart = function(event)
 {
+  console.log('trying to start touch ' + this._touchIdx);
   // if there is already a touch inprogress do nothing
   if( this._touchIdx !== null ) return;
 
@@ -258,6 +259,8 @@ VirtualJoystick.prototype._onTouchStart = function(event)
   // set the touchIdx of this joystick
   this._touchIdx  = touch.identifier;
 
+  console.log('new touch started ' + this._touchIdx);
+
   // forward the action
   var x   = touch.pageX;
   var y   = touch.pageY;
@@ -266,6 +269,7 @@ VirtualJoystick.prototype._onTouchStart = function(event)
 
 VirtualJoystick.prototype._onTouchEnd = function(event)
 {
+  console.log('trying to end touch ' + this._touchIdx);
   // if there is no touch in progress, do nothing
   if( this._touchIdx === null ) return;
 
@@ -274,12 +278,18 @@ VirtualJoystick.prototype._onTouchEnd = function(event)
 
   // try to find our touch event
   var touchList = event.changedTouches;
+  console.log(touchList);
   for(var i = 0; i < touchList.length && touchList[i].identifier !== this._touchIdx; i++);
   // if touch event isnt found, 
-  if( i === touchList.length) return;
+  if( i === touchList.length){
+    console.log('touch event isnt found');
+    return;
+  }
 
   // reset touchIdx - mark it as no-touch-in-progress
   this._touchIdx  = null;
+
+  console.log('touch ended ' + this._touchIdx);
 
 //??????
 // no preventDefault to get click event on ios
