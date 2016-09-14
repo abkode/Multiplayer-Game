@@ -217,19 +217,25 @@ var setEventHandlers = function () {
 
 }
 var onDisconnectedClient = function (data) {
-  console.log(data.client_id); 
-  targets.deleteNode(data.client_id);
+  // console.log(data.client_id); 
+  // console.log("client id:  ",targets.findNode(data.client_id));
+  if (targets.findNode(data.client_id) !== undefined)
+  {
 
-  var snakeBodySprites = players[data.client_id].snakeSection;
+    targets.deleteNode(data.client_id);
 
-  snakeBodySprites.forEach(body => {  
-    body.kill();
-  });
-  var snakeHead = players[data.client_id].snakeHead.kill();
+    var snakeBodySprites = players[data.client_id].snakeSection;
 
-  var trg = targets.flattenTargets(); 
-  var allplayerobj = getAllPlayers(players);
-  socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});  
+    snakeBodySprites.forEach(body => {  
+      body.kill();
+    });
+    var snakeHead = players[data.client_id].snakeHead.kill();
+
+    var trg = targets.flattenTargets(); 
+    var allplayerobj = getAllPlayers(players);
+    socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});  
+
+  }
 }
 
 
