@@ -17,6 +17,8 @@ var backgroundMusic;
 var battleMusic;
 var captureSound;
 var SPAWN_PLAYER_SEPERATION = 200;
+var timer;
+var timerEvent;
 
  
 var ballColors = {1 : 'assets/pokomon/azumarill.png',
@@ -201,6 +203,30 @@ function create() {
 
   cursors = game.input.keyboard.createCursorKeys();
 
+  // Create a custom timer
+  timer = game.time.create();
+  console.log('timer created');
+  
+  // Create a delayed event 1m and 30s from now
+  timerEvent = timer.add(Phaser.Timer.MINUTE * 1 + Phaser.Timer.SECOND * 30, this.endTimer, this);
+  
+  // Start the timer
+  timer.start();
+
+  function endTimer() {
+    // Stop the timer when the delayed event triggers
+    timer.stop();
+    // console.log('timer stopped')
+  }
+
+  // function formatTime(s) {
+  //   // Convert seconds (s) to a nicely formatted and padded time string
+  //   var minutes = "0" + Math.floor(s / 60);
+  //   var seconds = "0" + (s - minutes * 60);
+  //   return minutes.substr(-2) + ":" + seconds.substr(-2);   
+  // } 
+
+
   //console log all of the players in the game
   Object.keys(players).forEach(key => {  
     console.log(players[key].name);
@@ -286,6 +312,7 @@ function generatePlayerSpawnPoint()
   
     
 }
+
 var onNewPlayerfunction = function(data) {
 
 
@@ -351,6 +378,7 @@ function update() {
   createCollisionDetection();
 
 }
+
 function getPlayerKeyFromSnakeHead(snakeHead)
 {
   var playerKey;
@@ -447,5 +475,23 @@ function collisionCallback(snakeHead1, snakeHead2)
 }
 function render() {
 
+  function formatTime(s) {
+    // Convert seconds (s) to a nicely formatted and padded time string
+    var minutes = "0" + Math.floor(s / 60);
+    var seconds = "0" + (s - minutes * 60);
+    return minutes.substr(-2) + ":" + seconds.substr(-2);   
+  } 
+
+  
+  // If our timer is running, show the time in a nicely formatted way, else show 'Done!'
+  if (timer.running) { 
+    game.debug.text(formatTime(Math.round((timerEvent.delay - timer.ms) / 1000)), 2, 14, "#ff0");
+  }
+  else {
+    game.debug.text("Start!", 2, 14, "#0f0");
+  }
+
+  // game.debug.text("Time until event: " + game.time.events.duration, 32, 32);
 
 }
+
