@@ -12,7 +12,7 @@
 }
 
 #qr {
-  float: right;
+  padding: 0;
 }
 
 #overlay {
@@ -45,6 +45,9 @@
   font-size: 90px;
   font-family: 'Baloo Tamma', cursive;
 }
+.game_id {
+  height: 150px;
+}
 .game_id > h1{
   font-size: 60px;
   font-family: 'Baloo Tamma', cursive;
@@ -64,14 +67,20 @@
 #game canvas, #game_info {
   position: absolute;
   color: white;
-  padding: 30px;
-  margin: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 canvas {
-  border: 1px solid black;
-  
+  /*border: 1px solid black;*/
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
+#game_id > h1 {
+  padding-bottom: 0;
+}
 
 #mobile_container {
     padding: 20px;

@@ -63,13 +63,13 @@ $(function($){
                 console.log(allplayers, targetId, allplayers[targetId]);
 
                 $('#target').empty();
-                $('#target').append("<div class='row'><div class='col-xs-6'><div style='padding-right:10px'>You <img src=" + allplayers[playerId].ballColor + " style='border:3px solid white; width:130px' /></div></div><div class='col-xs-6'><div style='padding-right:40px; text-align:left'>Target<img src=" + allplayers[targetId].ballColor + " style='border:3px solid red; width:130px' /></div></div></div>");
+                $('#target').append("<div class='row'><div class='col-xs-6 text-center'><div style='padding-right:10px; text-align:center'>You <img src=" + allplayers[playerId].ballColor + " style='border:3px solid white; width:130px' /></div></div><div class='col-xs-6 text-center'><div style='padding-right:40px; text-align:center'>Target<img src=" + allplayers[targetId].ballColor + " style='border:3px solid red; width:130px' /></div></div></div>");
                 
             }else {
                 $('canvas').remove();
                 $('#target').empty();
                 $('#target').append("<h1> Oh you died ! </h1>");
-                $('#target').append("<input type='button' id='btn_restart' value='Play it again'>");
+                $('#target').append("<input type='button' id='btn_restart' class='btn btn-primary' value='Play it again'><br/>");
                 socket.emit('death player', {player_id: playerId});
 
                 $(document).on('click touchstart', '#btn_restart', function () {
