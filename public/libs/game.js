@@ -49,7 +49,28 @@ var ballColors = {1 : 'assets/pokomon/azumarill.png',
   27: 'assets/pokomon/starmie.png',
   28: 'assets/pokomon/mewtwo.png',
   29: 'assets/pokomon/gyarados.png',
-  30: 'assets/pokomon/zapdos.png'
+  30: 'assets/pokomon/zapdos.png',
+  31: 'assets/pokomon/electabuzz.png',
+  32: 'assets/pokomon/caterpie.png',
+  33: 'assets/pokomon/diglett.png',
+  34: 'assets/pokomon/kecleon.png',
+  35: 'assets/pokomon/dwebble.png',
+  36: 'assets/pokomon/mew.png',
+  37: 'assets/pokomon/swalot.png',
+  38: 'assets/pokomon/slowpoke.png',
+  39: 'assets/pokomon/simisage.png',
+  40: 'assets/pokomon/onix.png',
+  41: 'assets/pokomon/burmy.png',
+  42: 'assets/pokomon/pansear.png',
+  43: 'assets/pokomon/kangaskhan.png',
+  44: 'assets/pokomon/tympole.png',
+  45: 'assets/pokomon/seaking.png',
+  46: 'assets/pokomon/goodra.png',
+  47: 'assets/pokomon/dewott.png',
+  48: 'assets/pokomon/riolu.png',
+  49: 'assets/pokomon/hoppip.png',
+  50: 'assets/pokomon/magby.png'
+ 
 };
 var targets = new LinkedList();
 
@@ -99,6 +120,43 @@ function preload() {
   game.load.image(ballColors[28],'assets/pokomon/mewtwo.png');
   game.load.image(ballColors[29],'assets/pokomon/gyarados.png');
   game.load.image(ballColors[30],'assets/pokomon/zapdos.png');
+  game.load.image(ballColors[31],'assets/pokomon/electabuzz.png');
+  game.load.image(ballColors[32],'assets/pokomon/caterpie.png');
+  game.load.image(ballColors[33],'assets/pokomon/diglett.png');
+  game.load.image(ballColors[34],'assets/pokomon/kecleon.png');
+  game.load.image(ballColors[35],'assets/pokomon/dwebble.png');
+  game.load.image(ballColors[36],'assets/pokomon/mew.png');
+  game.load.image(ballColors[37],'assets/pokomon/swalot.png');
+  game.load.image(ballColors[38],'assets/pokomon/slowpoke.png');
+  game.load.image(ballColors[39],'assets/pokomon/simisage.png');
+  game.load.image(ballColors[40],'assets/pokomon/onix.png');
+  game.load.image(ballColors[41],'assets/pokomon/burmy.png');
+  game.load.image(ballColors[42],'assets/pokomon/pansear.png');
+  game.load.image(ballColors[43],'assets/pokomon/kangaskhan.png');
+  game.load.image(ballColors[44],'assets/pokomon/tympole.png');
+  game.load.image(ballColors[45],'assets/pokomon/seaking.png');
+  game.load.image(ballColors[46],'assets/pokomon/goodra.png');
+  game.load.image(ballColors[47],'assets/pokomon/dewott.png');
+  game.load.image(ballColors[48],'assets/pokomon/riolu.png');
+  game.load.image(ballColors[49],'assets/pokomon/hoppip.png');
+  game.load.image(ballColors[50],'assets/pokomon/magby.png');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   game.load.audio('backgroundMusic', 'assets/music/PokemonMainTheme.mp3');
   game.load.audio('captureSoundEffect', 'assets/music/PokemonCapture.mp3');
