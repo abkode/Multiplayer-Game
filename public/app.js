@@ -14,9 +14,11 @@ $(function($){
     });
 
     socket.on('newGameCreated', function (data) {
-        $('#gameURL').text("http://mpair.herokuapp.com/game");
+        // $('#gameURL').text("http://mpair.herokuapp.com/game");
+        $('#gameURL').text("http://bit.do/mpair");
         var key = data.gameId;
-        var QR = '<a href="http://mpair.herokuapp.com/game"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=http://mpair.herokuapp.com/game&choe=UTF-8" alt=""/></a>';
+        // var QR = '<a href="http://mpair.herokuapp.com/game"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=http://mpair.herokuapp.com/game&choe=UTF-8" alt=""/></a>';
+        var QR = '<a href="http://bit.do/mpair"><img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=http://bit.do/mpair&choe=UTF-8" alt=""/></a>';
         $('#qr').html(QR);
         $('#gameID').html("<h1>" + data.gameId + "</h1>");
         // $('#qr').html(QR);
@@ -46,7 +48,7 @@ $(function($){
         //     $('#player_list').append("<p>" + data.game_players[i] + "</p>");
         // }
         $('#game_id').html("<h1>" + data.game_id + " <img src='assets/game_icon.png' width='100px' /></h1>");
-        $('#game_id').append("<h2><span class='glyphicon glyphicon-link' aria-hidden='true'></span> http://mpair.herokuapp.com/game</h2><br />");
+        $('#game_id').append("<h2 style='text-shadow: 1px 1px 11px rgba(0, 0, 0, 0.7)'><span class='glyphicon glyphicon-link' aria-hidden='true'></span> http://bit.do/mpair</h2><br />");
     });
 
    
