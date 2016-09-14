@@ -14,7 +14,7 @@ $(function($){
     });
 
     socket.on('newGameCreated', function (data) {
-        $('#gameURL').text("http://multiplair.herokuapp.com//game");
+        $('#gameURL').text("http://multiplair.herokuapp.com/game");
         $('#gameID').html("<h1>" + data.gameId + "</h1>")
         var key = data.gameId;
         
