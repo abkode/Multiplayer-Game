@@ -140,24 +140,6 @@ function preload() {
   game.load.image(ballColors[48],'assets/pokomon/riolu.png');
   game.load.image(ballColors[49],'assets/pokomon/hoppip.png');
   game.load.image(ballColors[50],'assets/pokomon/magby.png');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   game.load.audio('backgroundMusic', 'assets/music/PokemonMainTheme.mp3');
   game.load.audio('captureSoundEffect', 'assets/music/PokemonCapture.mp3');
   game.load.audio('battleMusic', 'assets/music/PokemonBattle.mp3');
@@ -279,8 +261,8 @@ var setEventHandlers = function () {
 var onDisconnectedClient = function (data) {
   // console.log(data.client_id); 
   // console.log("client id:  ",targets.findNode(data.client_id));
-  if (targets.findNode(data.client_id) !== undefined)
-  {
+  // if (targets.findNode(data.client_id) !== undefined)
+  // {
 
     targets.deleteNode(data.client_id);
 
@@ -295,7 +277,7 @@ var onDisconnectedClient = function (data) {
     var allplayerobj = getAllPlayers(players);
     socket.emit('targets', {trg: trg, allplayerobj: allplayerobj});  
 
-  }
+  // }
 }
 
 
