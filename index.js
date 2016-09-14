@@ -97,9 +97,9 @@ io.sockets.on('connection', function (socket) {
             }); 
                socket.on('disconnect', function () {
                     console.log('disconnected !!!!!!!!');
-
                     delete game_players[socket.id];
                     numUsers = numUsers - 1;
+                    console.log(numUsers);
                     socket.broadcast.emit('user joined', {
                         numUsers: numUsers,
                         game_players: game_players,

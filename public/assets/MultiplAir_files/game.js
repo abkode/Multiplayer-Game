@@ -264,7 +264,9 @@ var onDisconnectedClient = function (data) {
   // if (targets.findNode(data.client_id) !== undefined)
   // {
 
+    console.log(targets);
     targets.deleteNode(data.client_id);
+    console.log(targets);
     var snakeBodySprites = players[data.client_id].snakeSection;
 
     snakeBodySprites.forEach(body => {  

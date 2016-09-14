@@ -71,6 +71,11 @@ LinkedList.prototype.flattenTargets = function () {
 }
 LinkedList.prototype.deleteNode = function (val) {
 
+  // If linked list is empty
+  if (!this.head) {
+    console.log('Linked list is empty.');
+    return;
+  }
   // if you have to delete the head
   if (this.head.data == val) {
       this.head = this.head.next;
@@ -87,12 +92,4 @@ LinkedList.prototype.deleteNode = function (val) {
     }
   }
   this._length--;
-  // If linked list is empty
-  if (this._length == 0) {
-    console.log('Linked list is empty.');
-    this.head = null;
-    this.tail = null;
-    return;
-  }
-  
 };

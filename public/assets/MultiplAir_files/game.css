@@ -1,0 +1,103 @@
+﻿body {
+    padding-top: 5%;
+    background: url(../assets/bg.jpg);
+    background-size: cover;
+    color: #fff;
+    background-color: #f8b600 !important;
+}
+
+.col-md-12 > h1 {
+  color:white;
+  font-size: 78px;
+}
+
+#qr {
+  padding: 0;
+}
+
+#overlay {
+    background: linear-gradient(60deg, rgb(255, 78, 80) 10%, rgb(249, 212, 35) 90%);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    transition: opacity 1s ease;
+    -webkit-transition: opacity 1s ease;
+    
+}
+
+#title > h1{
+  font-size: 140px;
+  font-family: 'Baloo Tamma', cursive;
+}
+
+#url_info {
+  color:white;
+}
+
+#gameURL {
+  font-size: 70px;
+  text-shadow: 1px 1px 11px rgba(0, 0, 0, 0.7);
+}
+
+
+#gameID > h1{
+  font-size: 90px;
+  font-family: 'Baloo Tamma', cursive;
+}
+.game_id {
+  height: 150px;
+}
+.game_id > h1{
+  font-size: 60px;
+  font-family: 'Baloo Tamma', cursive;
+  opacity: 80%;
+}
+
+#qr > img {
+  opacity: 30%;
+}
+
+#game_info {
+  width:100%;
+}
+#game {
+  position: relative;
+}
+#game canvas, #game_info {
+  position: absolute;
+  color: white;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+canvas {
+  /*border: 1px solid black;*/
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#game_id > h1 {
+  padding-bottom: 0;
+}
+
+#mobile_container {
+    padding: 20px;
+   text-align: center;
+}
+#mobile_container input {
+    width: 100%;
+    font-size: 2em;
+}
+
+#mobile_container button {
+    width: 100%;
+    font-size: 2em;
+}
+
+#player_target {
+  padding-top: 50px;
+}
